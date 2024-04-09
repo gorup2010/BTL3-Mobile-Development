@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
-import Image2 from "../assets/Image2.svg"
-import Image1 from "../assets/Moneyverse Home Office.svg"
-import Image3 from "../assets/Moneyverse Bussines Calendar.svg"
+import Boarding1 from "../assets/Boarding1";
+import Boarding2 from "../assets/Boarding2";
+import Boarding3 from "../assets/Boarding3";
 
 
 export default function OnboardingScreen() {
@@ -12,19 +12,19 @@ export default function OnboardingScreen() {
         pages={[
           {
             backgroundColor: "#fff",
-            image: <Image1 />,
+            image: <Boarding1 />,
             title: "Onboarding",
             subtitle: "Done with React Native Onboarding Swiper",
           },
           {
             backgroundColor: "#fff",
-            image: <Text>Foo</Text>,
+            image: <Text>Trang 2</Text>,
             title: "Onboarding",
             subtitle: "Done with React Native Onboarding Swiper",
           },
           {
             backgroundColor: "#fff",
-            image: <Text>Foo</Text>,
+            image: <Text>Trang 3</Text>,
             title: "Onboarding",
             subtitle: "Done with React Native Onboarding Swiper",
           },
