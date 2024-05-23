@@ -6,19 +6,19 @@ const InfoBox = ({ balance, income, spending, target }) => {
     <View style={styles.card}>
       <View style={styles.item}>
         <Text style={styles.name}>Tổng số dư các ví:</Text>
-        <Text style={styles.balance}>${balance} VND</Text>
+        <Text style={styles.balance}>{balance} VND</Text>
       </View>
       <View style={styles.item}>
         <Text style={styles.name}>Thu nhập hằng tháng:</Text>
-        <Text style={styles.income}>+${income} VND</Text>
+        <Text style={styles.income}>+{income} VND</Text>
       </View>
       <View style={styles.item}>
         <Text style={styles.name}>Chi tiêu tháng:</Text>
-        <Text style={styles.spending}>-${spending} VND</Text>
+        <Text style={styles.spending}>-{spending} VND</Text>
       </View>
       <View style={styles.item}>
         <Text style={styles.name}>Mục tiêu chi tiêu:</Text>
-        <Text style={styles.target}>-${target} VND</Text>
+        <Text style={styles.target}>-{target} VND</Text>
       </View>
     </View>
   );

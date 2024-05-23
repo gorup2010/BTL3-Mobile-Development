@@ -6,7 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import components
 import InfoBox from '../components/infoBox';
 
-const walletList = ({navigation}) => {
+const walletAdd = () => {
   const [balance, setBalance] = useState("0.000");
   const [income, setIncome] = useState("0.000");
   const [spending, setSpending] = useState("0.000");
@@ -49,7 +49,7 @@ const walletList = ({navigation}) => {
         
           buttonStyle={{borderRadius: 30, width: 40, height: 40, backgroundColor: '#00D2EE'}}
           icon={<MaterialIcons name="add" color="#ffffff" size={20} />}
-          onPress={() => navigation.navigate('THÊM VÍ MỚI')}  
+          onPress={() => navigation.navigate('Movies')}  
         > 
         </Button>
       </View>
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default walletList;
+export default walletAdd;
