@@ -13,4 +13,7 @@
   + value: string
 - Wallet list:
   + key: "wallet_lst"
-  + value: Array(Struct(title: string, default_op: boolean, balance: string))
+  + value: Array(Struct(title: string, balance: string))
+- Default wallet: name of default wallet
+  + key: "default_wallet"
+  + value: string
