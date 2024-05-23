@@ -5,12 +5,14 @@ import { Button } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import components
 import InfoBox from '../components/infoBox';
+import ScrollList from '../components/scrollList';
 
 const walletList = ({navigation}) => {
   const [balance, setBalance] = useState("0.000");
   const [income, setIncome] = useState("0.000");
   const [spending, setSpending] = useState("0.000");
   const [target, setTarget] = useState("0.000");
+  const [walletLst, setWalletLst] = useState([]);
   // Get infoBox data from local storage
   useEffect(() => {
     const fetchData = async () => {
@@ -34,12 +36,17 @@ const walletList = ({navigation}) => {
         if (storedTarget !== null) {
           setTarget(storedTarget);
         }
+        const storedWalletLst = await AsyncStorage.getItem('wallet_lst');
+        if (storedWalletLst !== null) {
+          setWalletLst(JSON.parse(storedWalletLst));
+        }
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
     };
     fetchData();
   }, []);
+
 
   return (
     <View style={styles.container}>
@@ -53,6 +60,9 @@ const walletList = ({navigation}) => {
         > 
         </Button>
       </View>
+      <ScrollList dataList={walletLst}>
+      </ScrollList>
+      
     </View>
   );
 };
@@ -62,6 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: "#ffffff",
   },
 });
 export default walletList;

@@ -12,7 +12,7 @@ const tabBarOptions = {
   activeTintColor: '#9381ff',
   style: {
     height: '10%',
-    backgroundColor: 'rgba(34,36,40,1)',
+    backgroundColor: '#ffffff',
   },
 };
 const RootNavigator = () => {
