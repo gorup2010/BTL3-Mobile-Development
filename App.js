@@ -20,10 +20,19 @@ export default function App() {
   useEffect(() => {
     const createData = async () => {
       try {
+        // Info Box test data
         await AsyncStorage.setItem('curr_balance', '20.000.0000');
         await AsyncStorage.setItem('curr_income', '15.000.000');
         await AsyncStorage.setItem('curr_spending', '5.000.000');
         await AsyncStorage.setItem('curr_target', '18.000.000');
+        // Wallet List test data
+        const dataList = [
+          { title: 'Ví chính', default_op: true, balance: '20.000.000' },
+          { title: 'Tiết kiệm', default_op: false, balance: '0.000' },
+          { title: 'Dự phòng', default_op: false, balance: '0.000' }
+          // Add more items as needed
+        ];
+        await AsyncStorage.setItem('wallet_lst', JSON.stringify(dataList));
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -32,7 +41,7 @@ export default function App() {
   }, []);
 
   return (
-    <RootNavigator />
+    <RootNavigator/>
     /*
     <>
       <StatusBar backgroundColor="white" height={35} style="dark" />
