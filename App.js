@@ -6,19 +6,24 @@ import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import HomeScreen from "./Screens/HomeScreen";
-import OnboardingScreen from "./Screens/OnboardingScreen.js";
+import HomeScreen from "./screens/HomeScreen.jsx";
+import OnboardingScreen from "./screens/OnboardingScreen.js";
 
 const Stack = createNativeStackNavigator();
 
+import RootNavigator from './Navigation/RootNavigator'
+
 export default function App() {
   return (
+    <RootNavigator />
+    /*
     <>
       <StatusBar backgroundColor="white" height={35} style="dark" />
       <Provider store={store}>
         <Root />
       </Provider>
     </>
+    */
   );
 }
 
