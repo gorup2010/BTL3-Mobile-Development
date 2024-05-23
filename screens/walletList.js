@@ -1,26 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback } from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 // import components
 import InfoBox from '../components/infoBox';
 import ScrollList from '../components/scrollList';
 
 const walletList = ({navigation}) => {
-  const [balance, setBalance] = useState("0.000");
-  const [income, setIncome] = useState("0.000");
-  const [spending, setSpending] = useState("0.000");
-  const [target, setTarget] = useState("0.000");
+  const [balance, setBalance] = useState("0");
+  const [income, setIncome] = useState("0");
+  const [spending, setSpending] = useState("0");
+  const [target, setTarget] = useState("0");
+  const [defaultWallet, setDefaultWallet] = useState("Ví chính");
   const [walletLst, setWalletLst] = useState([]);
-  // Get infoBox data from local storage
-  useEffect(() => {
-    const fetchData = async () => {
+  // Get infoBox data from local storage. Run every time Screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
       try {
         /* Unit Test 
         await AsyncStorage.setItem('curr_balance', '12.0000');
         */
         const storedBalance = await AsyncStorage.getItem('curr_balance');
+        console.log(storedBalance);
         if (storedBalance !== null) {
           setBalance(storedBalance);
         }
@@ -36,6 +40,10 @@ const walletList = ({navigation}) => {
         if (storedTarget !== null) {
           setTarget(storedTarget);
         }
+        const storedDefaultWallet = await AsyncStorage.getItem('default_wallet');
+        if (storedDefaultWallet !== null) {
+          setDefaultWallet(storedDefaultWallet);
+        }
         const storedWalletLst = await AsyncStorage.getItem('wallet_lst');
         if (storedWalletLst !== null) {
           setWalletLst(JSON.parse(storedWalletLst));
@@ -45,8 +53,12 @@ const walletList = ({navigation}) => {
       }
     };
     fetchData();
-  }, []);
 
+    return () => {
+      console.log('ScreenB is unfocused');
+    };
+  }, [])
+);
 
   return (
     <View style={styles.container}>
@@ -60,7 +72,7 @@ const walletList = ({navigation}) => {
         > 
         </Button>
       </View>
-      <ScrollList dataList={walletLst}>
+      <ScrollList dataList={walletLst} default_wallet={defaultWallet}>
       </ScrollList>
       
     </View>

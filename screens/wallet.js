@@ -9,7 +9,14 @@ const Stack = createStackNavigator();
 
 const wallet = () => {
   return  (
-    <Stack.Navigator  screenOptions={{ headerTitleAlign: 'center' }}>
+    <Stack.Navigator  
+      screenOptions={{ 
+        headerTitleAlign: 'center',
+        cardStyle: {
+            backgroundColor: '#ffffff',
+        },
+      }}
+    >
       <Stack.Screen name="DANH SÁCH VÍ" component={walletList} />
       <Stack.Screen name="THÊM VÍ MỚI" component={walletAdd} />
     </Stack.Navigator>
