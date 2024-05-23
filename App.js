@@ -14,6 +14,23 @@ const Stack = createNativeStackNavigator();
 import RootNavigator from './Navigation/RootNavigator'
 
 export default function App() {
+
+   
+  //Test local data. Delete this after done
+  useEffect(() => {
+    const createData = async () => {
+      try {
+        await AsyncStorage.setItem('curr_balance', '20.000.0000');
+        await AsyncStorage.setItem('curr_income', '15.000.000');
+        await AsyncStorage.setItem('curr_spending', '5.000.000');
+        await AsyncStorage.setItem('curr_target', '18.000.000');
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+    createData();
+  }, []);
+
   return (
     <RootNavigator />
     /*

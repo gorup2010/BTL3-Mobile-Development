@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import screens
 import Movies from '../screens/Movies';
-import walletList from '../screens/walletList';
+import wallet from '../screens/wallet';
 
 const Tab = createBottomTabNavigator();
 const tabBarOptions = {
@@ -28,16 +28,18 @@ const RootNavigator = () => {
             tabBarIcon: ({size}) => (
               <MaterialIcons name="attach-money" color={"#0BD7DF"} size={size} />
             ),
+            headerShown: false
           }}
         />
 
         <Tab.Screen
           name="VÍ TIỀN"
-          component={walletList}
+          component={wallet}
           options={{
             tabBarIcon: ({size}) => (
               <MaterialIcons name="wallet" color={"#BFD641"} size={size} />
             ),
+            headerShown: false
           }}
         />
 
@@ -48,6 +50,7 @@ const RootNavigator = () => {
             tabBarIcon: ({size}) => (
               <MaterialIcons name="add-circle" color={"#FED840"} size={size} />
             ),
+            headerShown: false
           }}
         />
 
@@ -58,6 +61,7 @@ const RootNavigator = () => {
             tabBarIcon: ({size}) => (
               <MaterialIcons name="bar-chart" color={"#FE9900"} size={size} />
             ),
+            headerShown: false
           }}
         />
 
@@ -68,6 +72,7 @@ const RootNavigator = () => {
             tabBarIcon: ({size}) => (
               <MaterialIcons name="next-plan" color={"#FE92A3"} size={size} />
             ),
+            headerShown: false
           }}
         />
 
