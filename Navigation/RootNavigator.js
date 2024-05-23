@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import screens
 import Movies from '../screens/Movies';
+import walletList from '../screens/walletList';
 
 const Tab = createBottomTabNavigator();
 const tabBarOptions = {
@@ -32,7 +33,7 @@ const RootNavigator = () => {
 
         <Tab.Screen
           name="VÍ TIỀN"
-          component={Movies}
+          component={walletList}
           options={{
             tabBarIcon: ({size}) => (
               <MaterialIcons name="wallet" color={"#BFD641"} size={size} />
