@@ -9,7 +9,7 @@ import wallet from '../screens/wallet';
 const Tab = createBottomTabNavigator();
 const tabBarOptions = {
   showLabel: false,
-  activeTintColor: '#9381ff',
+  activeTintColor: '#ffffff',
   style: {
     height: '10%',
     backgroundColor: '#ffffff',

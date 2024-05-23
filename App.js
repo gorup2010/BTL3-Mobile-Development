@@ -21,15 +21,16 @@ export default function App() {
     const createData = async () => {
       try {
         // Info Box test data
-        await AsyncStorage.setItem('curr_balance', '20.000.0000');
-        await AsyncStorage.setItem('curr_income', '15.000.000');
-        await AsyncStorage.setItem('curr_spending', '5.000.000');
-        await AsyncStorage.setItem('curr_target', '18.000.000');
+        await AsyncStorage.setItem('curr_balance', '20000000');
+        await AsyncStorage.setItem('curr_income', '15000000');
+        await AsyncStorage.setItem('curr_spending', '5000000');
+        await AsyncStorage.setItem('curr_target', '18000000');
+        await AsyncStorage.setItem('default_wallet', 'Ví chính');
         // Wallet List test data
         const dataList = [
-          { title: 'Ví chính', default_op: true, balance: '20.000.000' },
-          { title: 'Tiết kiệm', default_op: false, balance: '0.000' },
-          { title: 'Dự phòng', default_op: false, balance: '0.000' }
+          { title: 'Ví chính', balance: '20000000', des: '' },
+          { title: 'Tiết kiệm', balance: '0', des: '' },
+          { title: 'Dự phòng', balance: '0', des: '' }
           // Add more items as needed
         ];
         await AsyncStorage.setItem('wallet_lst', JSON.stringify(dataList));
