@@ -13,7 +13,9 @@
   + value: string
 - Wallet list:
   + key: "wallet_lst"
-  + value: Array(Struct(title: string, balance: string, des: string))
+  + value: Array(Struct(title: string, balance: string, des: string, transaction_lst: Array(Transaction)))
+- Transaction:
+  + value: Struct(type: string)
 - Default wallet: name of default wallet
   + key: "default_wallet"
   + value: string
