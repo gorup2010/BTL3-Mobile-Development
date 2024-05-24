@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView, FlatList } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 
-const ListItem = ({ title, balance, default_wallet }) => (
+const ListItem = ({ title, balance, default_wallet, navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate('CHI TIẾT VÍ', {walletName: title})}>
   <View style={styles.item}>
     <Text style={{fontWeight: 'bold', fontSize: 12,}}>{title}</Text>
     <Text style={{fontStyle: 'italic', color: '#5E5F65', fontSize: 11}}>{(default_wallet==title)? "mặc định" : ""}</Text>
@@ -10,15 +11,16 @@ const ListItem = ({ title, balance, default_wallet }) => (
       <Text style={{fontSize: 12, fontWeight: 'bold', color: '#00E879'}}>{balance} VND</Text>
     </View>
   </View>
+  </TouchableOpacity>
 );
 
-const ScrollList = ({ dataList, default_wallet }) => {
+const ScrollList = ({ dataList, default_wallet, navigation }) => {
   return (
     <View style={styles.card}>
       <FlatList
         style={{height: '65%'}}
         data={dataList}
-        renderItem={({ item }) => <ListItem title={item.title} default_op={item.default_op} balance={item.balance} default_wallet={default_wallet }/>}
+        renderItem={({ item }) => <ListItem title={item.title} default_op={item.default_op} balance={item.balance} default_wallet={default_wallet} navigation={navigation}/>}
         keyExtractor={item => item.title}
       />
     </View>

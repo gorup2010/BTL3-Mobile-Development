@@ -55,7 +55,7 @@ const walletList = ({navigation}) => {
     fetchData();
 
     return () => {
-      console.log('ScreenB is unfocused');
+      console.log('Danh sách ví is unfocused');
     };
   }, [])
 );
@@ -72,7 +72,7 @@ const walletList = ({navigation}) => {
         > 
         </Button>
       </View>
-      <ScrollList dataList={walletLst} default_wallet={defaultWallet}>
+      <ScrollList dataList={walletLst} default_wallet={defaultWallet} navigation={navigation}>
       </ScrollList>
       
     </View>
