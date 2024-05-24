@@ -28,7 +28,7 @@ export default function App() {
         await AsyncStorage.setItem('default_wallet', 'Ví chính');
         // Wallet List test data
         const dataList = [
-          { title: 'Ví chính', balance: '20000000', des: '' },
+          { title: 'Ví chính', balance: '20000000', des: 'Đây là ví dụ cho mục đích sử dụng của ciếc ví này' },
           { title: 'Tiết kiệm', balance: '0', des: '' },
           { title: 'Dự phòng', balance: '0', des: '' }
           // Add more items as needed
