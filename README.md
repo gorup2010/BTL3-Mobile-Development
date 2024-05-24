@@ -15,7 +15,7 @@
   + key: "wallet_lst"
   + value: Array(Struct(title: string, balance: string, des: string, transaction_lst: Array(Transaction)))
 - Transaction:
-  + value: Struct(type: string)
+  + value: Struct(type: string, date: string, isExpense: boolean, value: string)
 - Default wallet: name of default wallet
   + key: "default_wallet"
   + value: string
