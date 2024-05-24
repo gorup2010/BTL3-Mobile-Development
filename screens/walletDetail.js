@@ -7,8 +7,7 @@ import { useFocusEffect, useRoute } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // import components
-import InfoBox from '../components/infoBox';
-
+import ScrollList from '../components/scrollList';
 
 const showConfirmDeleteDialog = (navigation, name, balance) => 
     Alert.alert(
@@ -58,23 +57,30 @@ const walletDetail = ({navigation}) => {
   const [balance, setBalance] = useState("0");
   const [des, setDes] = useState("");
   const [defaultWallet, setDefaultWallet] = useState("Ví chính");
+  const [wallet, setWallet] = useState([]);
 
   useFocusEffect(
-    useCallback(() => {
+    useCallback(async () => {
       const fetchData = async () => {
       try {
         const storedWalletLst = JSON.parse(await AsyncStorage.getItem('wallet_lst'));
         let currBalance = "0";
         let description = '';
+        let wallet_index = 0;
         for (let i in storedWalletLst) {
-          if (storedWalletLst[i]['title'] == name) {
+          
+          if (storedWalletLst[i]['title'] == name) {  
+            wallet_index = i;
+            //console.log(storedWalletLst[wallet_index]);
             currBalance = storedWalletLst[i]['balance'];
             description = storedWalletLst[i]['des'];
             break;
           }
         }
-        setBalance(currBalance);
-        setDes(description);
+        await setWallet(storedWalletLst[wallet_index]);
+        await setBalance(currBalance);
+        await setDes(description);
+        
         const storedDefaultWallet = await AsyncStorage.getItem('default_wallet');
         if (storedDefaultWallet !== null) {
           setDefaultWallet(storedDefaultWallet);
@@ -84,7 +90,7 @@ const walletDetail = ({navigation}) => {
         console.error('Error fetching data: ', error);
       }
     };
-    fetchData();
+    await fetchData();
 
     return () => {
       console.log('Chi tiết ví is unfocused');
@@ -94,6 +100,7 @@ const walletDetail = ({navigation}) => {
   
   return (
     <View style={styles.container}>
+      <View style={styles.infocon}>
       <View style={styles.smallcon}>
         <Text style={{fontWeight: 'bold', fontSize: 15, color: '#5E5F65'}}>Thông tin</Text>
         <Text style={{fontStyle: 'italic', color: '#5E5F65', fontSize: 12, padding: 20}}>{(defaultWallet==name)? "mặc định" : ""}</Text>
@@ -130,12 +137,14 @@ const walletDetail = ({navigation}) => {
       <Text style={styles.info_title}>Mục đích sử dụng: </Text>
       <Text style={{fontSize: 12, width: '65%'}}>{des}</Text>
     </View>
-    
+    </View>
     <View style={styles.smallcon}>
       <Text style={{fontWeight: 'bold', fontSize: 15, color: '#5E5F65', paddingVertical:3}}>Lịch sử thay đổi</Text>
       <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center',}}>
       </View>
     </View>
+    <ScrollList dataList={wallet['transaction_lst']} default_wallet={defaultWallet} navigation={navigation} option="2">
+    </ScrollList>
   </View>
     
   );
@@ -154,6 +163,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '90%',
+    alignItems: 'center',
+    padding: 3
+  },
+  infocon: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    width: '100%',
+    height: '30%',
     alignItems: 'center',
     padding: 3
   },
