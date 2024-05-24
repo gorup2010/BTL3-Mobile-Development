@@ -1,25 +1,100 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {View, Switch, TextInput, Text, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
+
 // import components
 import InfoBox from '../components/infoBox';
 
-const walletAdd = ({navigation}) => {
+const walletEdit = ({navigation}) => {
+  const route = useRoute();
+  const { walletName } = route.params;
+
+  const [isDefault, setIsDefault] = useState(false);
+  const [name, onChangeName] = useState(walletName);
+  const [balance, onChangeBalance] = useState(null);
+  const [des, onChangeDes] = useState(null);
+  const toggleSwitch = () => setIsDefault(previousState => !previousState);
+
+  const editWallet = async (newWallet) => {
+  try {
+    let storedWalletLst = await AsyncStorage.getItem('wallet_lst');
+    let currBalance = await AsyncStorage.getItem('curr_balance');
+    if (storedWalletLst == null) {
+      storedWalletLst = [];
+    } else {
+      storedWalletLst = JSON.parse(storedWalletLst);
+    }
+    for (let i in storedWalletLst) {
+      if (storedWalletLst[i]['title'] == walletName) {
+        currBalance = (parseInt(currBalance) - parseInt(storedWalletLst[i]['balance']) +parseInt(balance)).toString();
+        storedWalletLst[i]['title'] = name;
+        storedWalletLst[i]['balance'] = currBalance;
+        storedWalletLst[i]['des'] = des;
+        break;
+      }
+    }
+    
+    await AsyncStorage.setItem('wallet_lst', JSON.stringify(storedWalletLst));
+    await AsyncStorage.setItem('curr_balance', currBalance);
+  } catch (error) {
+    console.error('Error fetching data: ', error);
+  }
+
+}
+
+  useFocusEffect(
+    useCallback(async () => {
+      const fetchData = async () => {
+      try {
+        const storedDefaultWallet = await AsyncStorage.getItem('default_wallet');
+        if (storedDefaultWallet !== null && storedDefaultWallet == name) {
+          await setIsDefault(true);
+        }
+        const storedWalletLst = JSON.parse(await AsyncStorage.getItem('wallet_lst'));
+        let currBalance = "0";
+        let description = '';
+        for (let i in storedWalletLst) {
+          if (storedWalletLst[i]['title'] == name) {
+            currBalance = storedWalletLst[i]['balance'];
+            description = storedWalletLst[i]['des'];
+            break;
+          }
+        }
+        await onChangeBalance(currBalance);
+        await onChangeDes(description);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+    await fetchData();
+
+    return () => {
+      console.log('Danh sách ví is unfocused');
+    };
+  }, [])
+);
   
   return (
     <View style={styles.container}>
-      <View>
-        <Text>Thông tin</Text>
-        <Text>{}</Text>
+      
+      <View style={{alignSelf: 'flex-end', paddingHorizontal: 20}}>
+        <Switch
+          trackColor={{false: '#D5D8DE', true: '#00E879'}}
+          thumbColor={isDefault ? '#f5dd4b' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isDefault}
+        />
       </View>
       <View style={{alignSelf: 'flex-start', paddingHorizontal: 20, width: '100%'}}>
         <Text style={styles.label}>Tên ví</Text>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeWalletName}
-          value={walletName}
+          onChangeText={onChangeName}
+          value={name}
           placeholder="Nhập tên ví"
         />
         <Text style={styles.label}>Số dư khả dụng</Text>
@@ -62,8 +137,8 @@ const walletAdd = ({navigation}) => {
             onPress={
               async () => {
                 if (isDefault) await AsyncStorage.setItem('default_wallet', walletName);
-                await addNewWallet({title: walletName, balance: balance, des: des,});
-                navigation.navigate('DANH SÁCH VÍ');
+                await editWallet({title: name, balance: balance, des: des,});
+                navigation.navigate('CHI TIẾT VÍ', {walletName: name});
               }
             }  
           > 
@@ -109,4 +184,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
 });
-export default walletAdd;
+export default walletEdit;
