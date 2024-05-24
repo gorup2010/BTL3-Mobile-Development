@@ -5,6 +5,7 @@ import {
   View,
   Platform,
   KeyboardAvoidingView,
+  Dimensions
 } from "react-native";
 import color from "../../constants/color";
 import Logo from "../../assets/Logo";
@@ -18,11 +19,13 @@ import LoadingOverlay from "./LoadingOverlay";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const screenHeight = Dimensions.get('window').height;
+
 export default function Login({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const disPatch = useDispatch();
   const [invalidEmail, setInvalidEmail] = useState(null);
   const [invalidPassword, setInvalidPassword] = useState(null);
   useEffect(() => {
@@ -103,104 +106,104 @@ export default function Login({ navigation }) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <View style={styles.imageContainer}>
-          <Logo />
-        </View>
-        <View
-          style={{ paddingHorizontal: "13%", marginTop: "2%", height: "35%" }}
-        >
-          <Text
+          <View style={styles.imageContainer}>
+            <Logo />
+          </View>
+          <View
+            style={{ paddingHorizontal: "10%", marginTop: "2%", marginBottom: "2%", height: screenHeight * 42 / 100 }}
+          >
+            <Text
+              style={{
+                fontSize: 27,
+                paddingBottom: 10,
+                fontWeight: "bold",
+              }}
+            >
+              Xin chào
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                paddingBottom: 40,
+                fontWeight: "300",
+              }}
+            >
+              Đăng nhập vào tài khoản của bạn
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: "300",
+              }}
+            >
+              Địa chỉ email
+            </Text>
+            <AuthInput
+              placeholder="Nhập email"
+              value={email}
+              keyboardType={"email-address"}
+              onUpdateValue={updateEmail}
+              onFocus={() => setInvalidEmail(null)}
+            />
+            {invalidEmail && (
+              <Text style={styles.invalidInput}>{invalidEmail} *</Text>
+            )}
+            <Text
+              style={{
+                fontSize: 15,
+                paddingBottom: 5,
+                fontWeight: "300",
+              }}
+            >
+              Mặt khẩu
+            </Text>
+            <AuthInput
+              placeholder="Nhập mật khẩu"
+              icon2={true}
+              secure={true}
+              value={password}
+              onUpdateValue={updatePassword}
+              onFocus={() => setInvalidPassword(null)}
+            />
+            {invalidPassword && (
+              <Text style={styles.invalidInput}>{invalidPassword} *</Text>
+            )}
+            <View style={styles.textContainer}>
+            <Text onPress={goToResetPage} style={styles.text}>
+              Quên mật khẩu
+            </Text>
+          </View>
+          </View>
+  
+          <View
+            style={{ alignItems: "center", marginTop: "2%", height: screenHeight * 30 / 100 }}
+          >
+            <Button onPress={loginHandler}>ĐĂNG NHẬP</Button>
+            <Text
+              style={[styles.text, { color: "black", paddingVertical: "1.5%" }]}
+            >
+              Hoặc
+            </Text>
+            <Button onPress={goToHomePage}>SỬ DỤNG NGAY</Button>
+          </View>
+          <View
             style={{
-              fontSize: 27,
-              paddingBottom: 10,
-              fontWeight: "bold",
+              flexDirection: "row",
+              justifyContent: "center",
+              paddingVertical: "2%",
+              marginBottom: 0,
+              marginTop: "2%",
+              height: screenHeight * 10 / 100,
             }}
           >
-            Xin chào
-          </Text>
-          <Text
-            style={{
-              fontSize: 15,
-              paddingBottom: 40,
-              fontWeight: "300",
-            }}
-          >
-            Đăng nhập vào tài khoản của bạn
-          </Text>
-          <Text
-            style={{
-              fontSize: 15,
-              paddingBottom: 5,
-              fontWeight: "300",
-            }}
-          >
-            Địa chỉ email
-          </Text>
-          <AuthInput
-            icon1="call-outline"
-            placeholder="Nhập email"
-            value={email}
-            keyboardType={"email-address"}
-            onUpdateValue={updateEmail}
-            onFocus={() => setInvalidEmail(null)}
-          />
-          {invalidEmail && (
-            <Text style={styles.invalidInput}>{invalidEmail} *</Text>
-          )}
-          <Text
-            style={{
-              fontSize: 15,
-              paddingBottom: 5,
-              fontWeight: "300",
-            }}
-          >
-            Mặt khẩu
-          </Text>
-          <AuthInput
-            icon1="key-outline"
-            placeholder="Nhập mật khẩu"
-            icon2={true}
-            secure={true}
-            value={password}
-            onUpdateValue={updatePassword}
-            onFocus={() => setInvalidPassword(null)}
-          />
-          {invalidPassword && (
-            <Text style={styles.invalidInput}>{invalidPassword} *</Text>
-          )}
-        </View>
+            <Text style={[styles.text, { color: "black" }]}>
+              Chưa có tài khoản?
+            </Text>
+            <Text onPress={signUpButtonHandler} style={styles.text}>
+              Đăng ký tại đây
+            </Text>
+          </View>
       </KeyboardAvoidingView>
-      <View style={styles.textContainer}>
-        <Text onPress={goToResetPage} style={styles.text}>
-          Quên mật khẩu
-        </Text>
-      </View>
-      <View style={{ alignItems: "center", marginTop: "2%", height: "25%" }}>
-        <Button onPress={loginHandler}>ĐĂNG NHẬP</Button>
-        <Text
-          style={[styles.text, { color: "black", paddingVertical: "1.5%" }]}
-        >
-          Hoặc
-        </Text>
-        <Button onPress={goToHomePage}>SỬ DỤNG NGAY</Button>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          paddingVertical: "2%",
-          marginBottom: 0,
-          marginTop: "2%",
-          height: "10%",
-        }}
-      >
-        <Text style={[styles.text, { color: "black" }]}>
-          Chưa có tài khoản?
-        </Text>
-        <Text onPress={signUpButtonHandler} style={styles.text}>
-          Đăng ký tại đây
-        </Text>
-      </View>
     </SafeAreaView>
   );
 }
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: "25%",
+    height: screenHeight * 20 / 100,
   },
   image: {
     maxWidth: "100%",
@@ -222,7 +225,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   text: {
-    color: "red",
+    color: "#EF7A6D",
     padding: "1%",
     fontSize: 14,
     fontWeight: "300",
@@ -230,13 +233,10 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    paddingRight: "14%",
-    paddingVertical: "1.5%",
-    height: "5%",
   },
   invalidInput: {
     textAlign: "right",
     color: "red",
-    paddingBottom: 5,
+    fontWeight: "300",
   },
 });

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: '3%',
         borderRadius:10,
         borderWidth:1,
-        borderColor:''
+        borderColor:'',
     },
     inputContainer: {
         marginVertical: '2%',
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         width: '80%',
         paddingVertical:'2%',
-        marginLeft:'2%'
+        marginLeft:'2%',
+        marginRight: '8%',
     },
     inputInvalid: {
         backgroundColor: 'red',

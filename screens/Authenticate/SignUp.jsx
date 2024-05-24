@@ -6,6 +6,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  Dimensions,
 } from "react-native";
 
 import React, { useState, useEffect } from "react";
@@ -24,6 +25,9 @@ import {
   isValidPassword,
   isValidUsername,
 } from "../../utils/inputValidation";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+const screenHeight = Dimensions.get("window").height;
 
 export default function SignUp({ navigation }) {
   const [username, setUsername] = useState("");
@@ -61,6 +65,7 @@ export default function SignUp({ navigation }) {
       isValidConfirm,
       confirmMessage,
     } = isValidPassword(password, confirmPassword);
+
     const { isValid: isValidUser, message: userMessage } =
       isValidUsername(username);
 
@@ -85,6 +90,7 @@ export default function SignUp({ navigation }) {
   }
   async function signUpHandler() {
     clearErrorMessage();
+
     if (!signUpInforChecking()) {
       return;
     }
@@ -135,111 +141,129 @@ export default function SignUp({ navigation }) {
   }
   if (isLoading) return <LoadingOverlay />;
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
       <View style={styles.container}>
-        {success && (
-          <Modal animationType="slide" transparent={true} visible={success}>
-            <SafeAreaView style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Image
-                  style={styles.modalImage}
-                  source={require("../../assets/Green-Check.png")}
-                />
-                <Text style={styles.title}>THÀNH CÔNG</Text>
-                <Text style={[styles.content]}>
-                  Bạn đã đăng ký tài khoản thành công
-                </Text>
-                <Text style={[styles.content]}>
-                  {" "}
-                  Tự động chuyển đến trang chủ trong {timeLeft} giây
-                </Text>
-              </View>
-            </SafeAreaView>
-          </Modal>
-        )}
-        <View style={styles.imageContainer}>
-          <Logo />
-        </View>
-        <View style={{ height: "68%" }}>
-          <View style={{ paddingHorizontal: "15%" }}>
-            <Text style={styles.text}>Địa chỉ email</Text>
-            <AuthInput
-              icon1="mail-outline"
-              placeholder="Nhập email"
-              keyboardType="email-address"
-              value={email}
-              onUpdateValue={updateEmail}
-              onFocus={() => setInvalidEmail(null)}
+        {success ? (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Image
+              style={styles.modalImage}
+              source={require("../../assets/Green-Check.png")}
             />
-            {invalidEmail && (
-              <Text style={styles.invalidInput}>{invalidEmail} *</Text>
-            )}
-            <Text style={styles.text}>Tên người dùng</Text>
-            <AuthInput
-              icon1="call-outline"
-              placeholder="Nhập username"
-              keyboardType="phone-pad"
-              value={username}
-              onUpdateValue={updateUsername}
-              onFocus={() => setInvalidUsername(null)}
-            />
-            {invalidUsername && (
-              <Text style={styles.invalidInput}>{invalidUsername} *</Text>
-            )}
-            <Text style={styles.text}>Mật khẩu</Text>
-
-            <AuthInput
-              icon1="key-outline"
-              placeholder="Nhập mật khẩu"
-              icon2={true}
-              secure={true}
-              value={password}
-              onUpdateValue={updatePassword}
-              onFocus={() => setInvalidPassword(null)}
-            />
-            {invalidPassword && (
-              <Text style={styles.invalidInput}> {invalidPassword} *</Text>
-            )}
-            <Text style={styles.text}>Nhập lại mật khẩu</Text>
-
-            <AuthInput
-              icon1="key-outline"
-              placeholder="Nhập lại mật khẩu"
-              icon2={true}
-              secure={true}
-              value={confirmPassword}
-              onUpdateValue={updateConfirmPassword}
-              onFocus={() => setInvalidConfirmPassword(null)}
-            />
-            {invalidConfirmPassword && (
-              <Text style={styles.invalidInput}>
-                {invalidConfirmPassword} *
-              </Text>
-            )}
+            <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 2 }}>
+              Hoàn tất đăng ký!
+            </Text>
+            <Text style={[styles.content]}>
+              Tự động chuyển đến trang chủ trong {timeLeft} giây
+            </Text>
           </View>
-          <Button onPress={signUpHandler}>ĐĂNG KÝ</Button>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            marginBottom: 20,
-            marginTop: 20,
-            height: "10%",
-          }}
-        >
-          <Text style={[styles.text]}>
-            Bạn đã có tài khoản?
-          </Text>
-          <Text onPress={signUpButtonHandler} style={[styles.text, {color: "red"}]}>
-            Đăng nhập tại đây
-          </Text>
-        </View>
+        ) : (
+          <>
+            <View style={styles.imageContainer}>
+              <Logo />
+            </View>
+            <View style={{ height: (screenHeight * 65) / 100 }}>
+              <View style={{ paddingHorizontal: "10%" }}>
+                <Text
+                  style={{
+                    fontSize: 27,
+                    paddingBottom: 10,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Chào mừng bạn
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    paddingBottom: 35,
+                    fontWeight: "300",
+                  }}
+                >
+                  Hãy đăng ký để trải nghiệm ứng dụng
+                </Text>
+                <Text style={styles.text}>Địa chỉ email</Text>
+                <AuthInput
+                  placeholder="Nhập email"
+                  keyboardType="email-address"
+                  value={email}
+                  onUpdateValue={updateEmail}
+                  onFocus={() => setInvalidEmail(null)}
+                />
+                {invalidEmail && (
+                  <Text style={styles.invalidInput}>{invalidEmail} *</Text>
+                )}
+                <Text style={styles.text}>Tên người dùng</Text>
+                <AuthInput
+                  placeholder="Nhập username"
+                  keyboardType="text"
+                  value={username}
+                  onUpdateValue={updateUsername}
+                  onFocus={() => setInvalidUsername(null)}
+                />
+                {invalidUsername && (
+                  <Text style={styles.invalidInput}>{invalidUsername} *</Text>
+                )}
+                <Text style={styles.text}>Mật khẩu</Text>
+
+                <AuthInput
+                  placeholder="Nhập mật khẩu"
+                  icon2={true}
+                  secure={true}
+                  value={password}
+                  onUpdateValue={updatePassword}
+                  onFocus={() => setInvalidPassword(null)}
+                />
+                {invalidPassword && (
+                  <Text style={styles.invalidInput}> {invalidPassword} *</Text>
+                )}
+                <Text style={styles.text}>Nhập lại mật khẩu</Text>
+
+                <AuthInput
+                  placeholder="Nhập lại mật khẩu"
+                  icon2={true}
+                  secure={true}
+                  value={confirmPassword}
+                  onUpdateValue={updateConfirmPassword}
+                  onFocus={() => setInvalidConfirmPassword(null)}
+                />
+                {invalidConfirmPassword && (
+                  <Text style={styles.invalidInput}>
+                    {invalidConfirmPassword} *
+                  </Text>
+                )}
+              </View>
+            </View>
+            <View style={{ height: "10%", paddingHorizontal: "10%" }}>
+              <Button onPress={signUpHandler} size="md">
+                ĐĂNG KÝ
+              </Button>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginBottom: 20,
+                marginTop: 20,
+                height: screenHeight * 5 / 100,
+              }}
+            >
+              <Text style={[styles.text]}>Bạn đã có tài khoản? </Text>
+              <Text
+                onPress={signUpButtonHandler}
+                style={[styles.text, { color: "#EF7A6D" }]}
+              >
+                Đăng nhập tại đây
+              </Text>
+            </View>
+          </>
+        )}
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -251,7 +275,7 @@ const styles = StyleSheet.create({
     padding: 0,
     justifyContent: "center",
     alignItems: "center",
-    height: "25%",
+    height: (screenHeight * 20) / 100,
     resizeMode: "cover",
   },
   image: {
@@ -262,7 +286,6 @@ const styles = StyleSheet.create({
     // color: color.text_blue,
     // padding: 2,
     fontSize: 15,
-    paddingBottom: 5,
     fontWeight: "300",
   },
   textContainer: {
@@ -274,11 +297,10 @@ const styles = StyleSheet.create({
   invalidInput: {
     textAlign: "right",
     color: "red",
-    paddingBottom: 5,
   },
   modalImage: {
-    width: 50,
-    height: 50,
+    width: 200,
+    height: 200,
   },
   modalContainer: {
     backgroundColor: "white",
@@ -312,7 +334,7 @@ const styles = StyleSheet.create({
   },
   content: {
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 16,
     marginVertical: "1%",
   },
 });
