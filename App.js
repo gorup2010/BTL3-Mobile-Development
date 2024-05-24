@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import HomeScreen from "./Screens/HomeScreen";
-import OnboardingScreen from "./Screens/OnboardingScreen.js";
+import HomeScreen from "./screens/HomeScreen";
+import OnboardingScreen from "./screens/OnboardingScreen.js";
 import AuthStack from "./Navigation/AuthStack.jsx";
 
 const Stack = createNativeStackNavigator();

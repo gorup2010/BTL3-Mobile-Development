@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
 import React from "react";
 
-import Onboarding from "../Screens/Onboarding/Onboarding.jsx";
+import Onboarding from "../screens/Onboarding/Onboarding.jsx";
 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import HomeScreen from "../Screens/HomeScreen";
 
 const Tab = createMaterialTopTabNavigator();
 export default function OnBoardingStack({ navigation }) {

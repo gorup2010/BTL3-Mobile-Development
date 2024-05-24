@@ -73,8 +73,7 @@ export default function Login({ navigation }) {
   function logInforChecking() {
     const { isValid: isValidPass, message: passwordMessage } =
       isValidPassword(password);
-    const { isValid: isValidMail, message: emailMessage } =
-      isValidEmail(email);
+    const { isValid: isValidMail, message: emailMessage } = isValidEmail(email);
     if (!isValidMail) {
       setInvalidEmail(emailMessage);
     }
@@ -99,15 +98,17 @@ export default function Login({ navigation }) {
     return <LoadingOverlay />;
   }
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
         <View style={styles.imageContainer}>
           <Logo />
         </View>
-        <View style={{ paddingHorizontal: "13%", marginTop: "2%" }}>
+        <View
+          style={{ paddingHorizontal: "13%", marginTop: "2%", height: "35%" }}
+        >
           <Text
             style={{
               fontSize: 27,
@@ -168,39 +169,39 @@ export default function Login({ navigation }) {
             <Text style={styles.invalidInput}>{invalidPassword} *</Text>
           )}
         </View>
-        <View style={styles.textContainer}>
-          <Text onPress={goToResetPage} style={styles.text}>
-            Quên mật khẩu
-          </Text>
-        </View>
-
-        <View style={{ alignItems: "center", marginTop: "2%" }}>
-          <Button onPress={loginHandler}>ĐĂNG NHẬP</Button>
-          <Text
-            style={[styles.text, { color: "black", paddingVertical: "1.5%" }]}
-          >
-            Hoặc
-          </Text>
-          <Button onPress={goToHomePage}>SỬ DỤNG NGAY</Button>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            paddingVertical: "2%",
-            marginBottom: 0,
-            marginTop: "2%",
-          }}
+      </KeyboardAvoidingView>
+      <View style={styles.textContainer}>
+        <Text onPress={goToResetPage} style={styles.text}>
+          Quên mật khẩu
+        </Text>
+      </View>
+      <View style={{ alignItems: "center", marginTop: "2%", height: "25%" }}>
+        <Button onPress={loginHandler}>ĐĂNG NHẬP</Button>
+        <Text
+          style={[styles.text, { color: "black", paddingVertical: "1.5%" }]}
         >
-          <Text style={[styles.text, { color: "black" }]}>
-            Bạn chưa có tài khoản?
-          </Text>
-          <Text onPress={signUpButtonHandler} style={styles.text}>
-            Đăng ký tại đây
-          </Text>
-        </View>
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+          Hoặc
+        </Text>
+        <Button onPress={goToHomePage}>SỬ DỤNG NGAY</Button>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          paddingVertical: "2%",
+          marginBottom: 0,
+          marginTop: "2%",
+          height: "10%",
+        }}
+      >
+        <Text style={[styles.text, { color: "black" }]}>
+          Chưa có tài khoản?
+        </Text>
+        <Text onPress={signUpButtonHandler} style={styles.text}>
+          Đăng ký tại đây
+        </Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -221,15 +222,17 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   text: {
-    color: color.text_blue,
+    color: "red",
     padding: "1%",
     fontSize: 14,
+    fontWeight: "300",
   },
   textContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
     paddingRight: "14%",
     paddingVertical: "1.5%",
+    height: "5%",
   },
   invalidInput: {
     textAlign: "right",

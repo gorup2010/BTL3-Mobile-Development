@@ -11,6 +11,22 @@ export function isValidEmail(email) {
   return { isValid, message };
 }
 
+export function isValidUsername(username) {
+  const usernameRegex = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+  isValid = true;
+  message = null;
+
+  if (username.length < 8 || username.length > 30) {
+    message = "Username phải chứa từ 8 đến 29 ký tự";
+    isValid = false;
+  }
+  else if (!usernameRegex.test(email)) {
+    message = `Username chỉ được chứa chữ cái, số và dấu "_".`;
+    isValid = false;
+  }
+  return { isValid, message };
+}
+
 export function isValidPassword(password, confirmedPassword) {
   isValid = true;
   message = null;

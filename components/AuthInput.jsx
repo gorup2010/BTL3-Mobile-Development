@@ -52,14 +52,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: '1%',
         paddingHorizontal: '3%',
-        borderRadius:4,
+        borderRadius:10,
         borderWidth:1,
         borderColor:''
     },
     inputContainer: {
         marginVertical: '2%',
         width: '100%',
-        // paddingVertical:'1%',
     },
     label: {
         color: 'white',

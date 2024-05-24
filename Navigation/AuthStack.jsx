@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import Login from "../Screens/Authenticate/Login";
-import SignUp from "../Screens/Authenticate/SignUp";
+import Login from "../screens/Authenticate/Login";
+import SignUp from "../screens/Authenticate/SignUp";
 import color from "../constants/color";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ForgotPassword from "../Screens/Authenticate/ForgotPassword";
+import ForgotPassword from "../screens/Authenticate/ForgotPassword";
 
 const Stack = createNativeStackNavigator();
 export default function AuthStack() {
@@ -36,7 +36,7 @@ export default function AuthStack() {
         component={SignUp}
         options={{
           fontSize: 14,
-          title: "ĐĂNG KÝ",
+          headerShown: false,
         }}
       />
       <Stack.Screen
