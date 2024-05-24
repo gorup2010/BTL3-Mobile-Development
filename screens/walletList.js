@@ -72,7 +72,7 @@ const walletList = ({navigation}) => {
         > 
         </Button>
       </View>
-      <ScrollList dataList={walletLst} default_wallet={defaultWallet} navigation={navigation}>
+      <ScrollList dataList={walletLst} default_wallet={defaultWallet} navigation={navigation} option="1">
       </ScrollList>
       
     </View>
