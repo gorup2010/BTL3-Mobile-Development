@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeScreen from "./Screens/HomeScreen";
 import OnboardingScreen from "./Screens/OnboardingScreen.js";
+import AuthStack from "./Navigation/AuthStack.jsx";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +31,6 @@ function Root() {
   async function checkFirstLoad() {
     setIsLoading(true);
     const RunState = await AsyncStorage.getItem("CtimeFirstLoad");
-    console.log("Runrun ", RunState);
     if (!RunState) setIsFirstLoad(true);
     await AsyncStorage.setItem("CtimeFirstLoad", "false");
     setIsLoading(false);
@@ -54,9 +54,9 @@ function Root() {
           //   <Stack.Screen name="OnBoarding" component={OnBoardingStack} />
           // )}
         }
-        <Stack.Screen name="OnBoarding" component={OnboardingScreen} />
-        <Stack.Screen name="Authenticate" component={HomeScreen} />
-        {/*<Stack.Screen name="Main" component={Main} />*/}
+        {false&&<Stack.Screen name="OnBoarding" component={OnboardingScreen} />}
+        <Stack.Screen name="Authenticate" component={AuthStack} />
+        <Stack.Screen name="Main" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
