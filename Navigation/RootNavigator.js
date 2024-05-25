@@ -5,6 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import screens
 import Movies from '../screens/Movies';
 import wallet from '../screens/wallet';
+import statis from '../screens/statis';
 
 const Tab = createBottomTabNavigator();
 const tabBarOptions = {
@@ -56,12 +57,13 @@ const RootNavigator = () => {
 
         <Tab.Screen
           name="THỐNG KÊ"
-          component={Movies}
+          component={statis}
           options={{
             tabBarIcon: ({size}) => (
               <MaterialIcons name="bar-chart" color={"#FE9900"} size={size} />
             ),
-            headerShown: false
+            headerShown: true,
+            headerTitleAlign: 'center',
           }}
         />
 
