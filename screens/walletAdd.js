@@ -28,7 +28,7 @@ const addNewWallet = async (newWallet) => {
 const walletAdd = ({navigation}) => {
   const [isDefault, setIsDefault] = useState(false);
   const [walletName, onChangeWalletName] = useState(null);
-  const [balance, onChangeBalance] = useState(null);
+  const [balance, onChangeBalance] = useState("0");
   const [des, onChangeDes] = useState(null);
   const toggleSwitch = () => setIsDefault(previousState => !previousState);
   

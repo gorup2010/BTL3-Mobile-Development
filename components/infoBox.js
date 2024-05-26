@@ -1,7 +1,11 @@
-import React from 'react';
-import { View, Text, StyleSheet, ProgressViewIOS } from 'react-native';
+import React , {useEffect, useState, useCallback}from 'react';
+import { View, Text, StyleSheet} from 'react-native';
+import { PieChart } from 'react-native-svg-charts';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
+
 
 const InfoBox = ({ balance, income, spending, target }) => {
+  
   return (
     <View style={styles.card}>
       <View style={styles.item}>
@@ -24,6 +28,37 @@ const InfoBox = ({ balance, income, spending, target }) => {
   );
 };
 
+const ChartBox = ({chartdata}) => {
+  return (
+    <View style={styles.card_chart}>
+      <PieChart style={{ width: '30%' }} data={chartdata} />
+
+      <View style={styles.card_new}>
+        <View style={styles.item}>
+          <Text style={styles.name}>{chartdata[0]['name']}</Text>
+          <Text style={{fontSize: 12, fontWeight: 'bold', color: '#EF7A6D',}}>{chartdata[0]['value']} %</Text>
+        </View>
+        <View style={styles.item}>
+          <Text style={styles.name}>{chartdata[1]['name']}</Text>
+          <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FFBB00',}}>{chartdata[1]['value']} %</Text>
+        </View>
+        <View style={styles.item}>
+          <Text style={styles.name}>{chartdata[2]['name']}</Text>
+          <Text style={{fontSize: 12, fontWeight: 'bold', color: '#00E879',}}>{chartdata[2]['value']} %</Text>
+        </View>
+        <View style={styles.item}>
+          <Text style={styles.name}>{chartdata[3]['name']}</Text>
+          <Text style={{fontSize: 12, fontWeight: 'bold', color: '#29E5FE',}}>{chartdata[3]['value']} %</Text>
+        </View>
+        <View style={styles.item}>
+          <Text style={styles.name}>{chartdata[4]['name']}</Text>
+          <Text style={{fontSize: 12, fontWeight: 'bold', color: '#ffffff',}}>{chartdata[4]['value']} %</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#181818',
@@ -33,6 +68,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     elevation: 2,
     width: '90%',
+  },
+  card_chart: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#181818',
+    borderRadius: 20,
+    padding: 8,
+    marginVertical: 8,
+    width: '90%',
+  },
+  card_new: {
+    backgroundColor: '#181818',
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    elevation: 2,
+    width: '70%',
   },
   name: {
     fontSize: 12,
@@ -68,4 +120,5 @@ const styles = StyleSheet.create({
   
 });
 
+export {InfoBox, ChartBox };
 export default InfoBox;

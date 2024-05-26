@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 
 const transactionIconPaths = {
@@ -55,6 +54,22 @@ const ListItem2 = ({ type, date, isExpense, value, navigation }) => (
   </View>
 );
 
+const ListItem3 = ({ type, value, isExpense, navigation }) => (
+  
+  <View style={styles.item}>
+    <Image source={transactionIconPaths[type]} />
+    <View style={{display: 'flex', alignItems:'flex-end'}}>
+      <Text style={{fontSize: 14, fontWeight: 'bold',}}>{type}</Text>
+    </View>
+    <View style={{display: 'flex', flexDirection: 'row', width: '50%', justifyContent: 'space-between',alignItems:'center'}}>
+      <Text style={{fontSize: 12, fontStyle: 'italic', color: '#A4A6B2'}}>{(isExpense) ? "Chi phí: " : "Thu nhập: "}</Text>
+      {(isExpense) ? 
+      <Text style={{fontSize: 12, fontWeight: 'bold', color: "#EF736D"}}>-{value} VND</Text> : 
+      <Text style={{fontSize: 12, fontWeight: 'bold', color: "#00E879"}}>+{value} VND</Text>}
+    </View>
+  </View>
+);
+
 const styles = StyleSheet.create({
   item: {
     backgroundColor: '#EEEFF6',
@@ -71,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {ListItem1, ListItem2};
+export {ListItem1, ListItem2, ListItem3};

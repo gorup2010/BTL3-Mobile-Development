@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
-import {ListItem1, ListItem2} from './listItem.js';
+import {ListItem1, ListItem2, ListItem3} from './listItem.js';
 
-const ScrollList = ({ dataList, default_wallet, navigation, option }) => {
+const ScrollList = ({ dataList, default_wallet, navigation, option, isExpense }) => {
   return (
     <View style={styles.card}>
       <FlatList
@@ -10,7 +10,11 @@ const ScrollList = ({ dataList, default_wallet, navigation, option }) => {
         data={dataList}
         renderItem={({ item }) => 
           ((option == "1" || option == null) ? (<ListItem1 title={item.title} default_op={item.default_op} balance={item.balance} default_wallet={default_wallet} navigation={navigation}/>) : 
-          ((option == "2") ? (<ListItem2 type={item.type} date={item.date} isExpense={item.isExpense} value={item.value} navigation={navigation}/>) : null))
+            ((option == "2") ? (<ListItem2 type={item.type} date={item.date} isExpense={item.isExpense} value={item.value} navigation={navigation}/>) : 
+              ((option == "3") ? (<ListItem3 type={item.type} isExpense={isExpense} value={item.value} navigation={navigation}/>) : null
+              )
+            )
+          )
         }
         keyExtractor={item => item.title}
       />
