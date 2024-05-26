@@ -18,6 +18,7 @@ const statis = () => {
         },
       }}
     >
+      
       <Tab.Screen
         name="CHI TIÊU" 
         component={statisExpenseMonth} 
@@ -26,6 +27,7 @@ const statis = () => {
         name="THU NHẬP" 
         component={statisIncomeMonth} 
       />
+    
     </Tab.Navigator>
   );
 }
