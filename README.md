@@ -20,7 +20,7 @@
 - Transaction:
   + value: Struct(type: string, date: string, isExpense: boolean, value: string)
 - PlanTarget:
-  + value: Struct(type: string, target: string)
+  + value: Struct(type: string, target: string, note: string)
 - Default wallet: name of default wallet
   + key: "default_wallet"
   + value: string
