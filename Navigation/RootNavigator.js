@@ -15,8 +15,6 @@ import LogoScreen from '../screens/LogoScreen';
 import MainNavigator from './MainNavigator';
 import OnBoardingStack from './OnboardingStack.jsx';
 
-
-
 const Stack = createStackNavigator();
 
 const RootNavigator = () => {
@@ -39,10 +37,10 @@ const RootNavigator = () => {
         if (value === null || value === "false") {
           //await AsyncStorage.setItem('isFirstLaunch', 'false');
           setIsFirstLaunch(true);
-          console.log("Set isFirstLaunch true");
+          //console.log("Set isFirstLaunch true");
         } else if (value === true) {
           setIsFirstLaunch(false);
-          console.log("Set isFirstLaunch false");
+          //console.log("Set isFirstLaunch false");
 
         }
       } catch (error) {
@@ -53,7 +51,7 @@ const RootNavigator = () => {
     checkFirstLaunch();
   }, []);
 
-  console.log("Is first launch? ", isFirstLaunch);
+  //console.log("Is first launch? ", isFirstLaunch);
 
   return (
     <NavigationContainer>

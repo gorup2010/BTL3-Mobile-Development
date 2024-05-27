@@ -23,6 +23,7 @@ export default function App() {
         await AsyncStorage.setItem('curr_spending', '5000000');
         await AsyncStorage.setItem('curr_target', '18000000');
         await AsyncStorage.setItem('default_wallet', 'Ví chính');
+        await AsyncStorage.setItem('default_plan', 'Kế hoạch chính');
         // Wallet List test data
         const dataList = [
           { title: 'Ví chính', balance: '20000000', des: 'Đây là ví dụ cho mục đích sử dụng của ciếc ví này',
@@ -49,7 +50,22 @@ export default function App() {
           { title: 'Dự phòng', balance: '0', des: '' }
           // Add more items as needed
         ];
+        const planList = [
+          { title: 'Kế hoạch chính', target: "15000000", des: 'Đây là ví dụ cho mục đích sử dụng của ciếc ví này', target_lst: [
+            {type: 'Ăn uống', target: '2000000', note: "Ăn uống hằng ngày, 3 bữa/ngày"},
+            {type: 'Di chuyển', target: '300000', note: "Di chuyển bằng xe bus"},
+            {type: 'Sửa chữa', target: '700000', note: "Sửa mái nhà bị dột"},
+            {type: 'Du lịch', target: '12000000', note: "Du lịch trong mơ :)"},
+          ]},
+          { title: 'Kế hoạch lễ Tết', target: "15000000", des: '' },
+          { title: 'Kế hoạch đi chơi', target: "0", des: '' },
+          { title: 'Kế hoạch lễ Quốc khánh', target: "0", des: '' },
+          { title: 'Kế hoạch đi nước ngoài', target: "0", des: '' },
+          { title: 'Kế hoạch sinh nhật', target: "0", des: '' },
+          // Add more items as needed
+        ];
         await AsyncStorage.setItem('wallet_lst', JSON.stringify(dataList));
+        await AsyncStorage.setItem('plan_lst', JSON.stringify(planList));
       } catch (error) {
         console.error('Error fetching data: ', error);
       }

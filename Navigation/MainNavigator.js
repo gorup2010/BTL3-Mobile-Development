@@ -9,6 +9,9 @@ import { View} from 'react-native';
 import Movies from '../screens/Movies';
 import wallet from '../screens/wallet';
 import statis from '../screens/statis';
+import plan from '../screens/plan';
+import dashboard from '../screens/dashboard';
+
 
 const Tab = createBottomTabNavigator();
 const tabBarOptions = {
@@ -29,7 +32,7 @@ const MainNavigator = () => {
         
         <Tab.Screen
           name="GIAO DỊCH"
-          component={Movies}
+          component={dashboard}
           options={{
             tabBarIcon: ({size}) => (
               <MaterialIcons name="attach-money" color={"#0BD7DF"} size={size} />
@@ -80,7 +83,7 @@ const MainNavigator = () => {
         
         <Tab.Screen
           name="KẾ HOẠCH"
-          component={Movies}
+          component={plan}
           options={{
             tabBarIcon: ({size}) => (
               <MaterialIcons name="next-plan" color={"#FE92A3"} size={size} />
