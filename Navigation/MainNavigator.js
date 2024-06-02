@@ -11,7 +11,7 @@ import wallet from '../screens/wallet';
 import statis from '../screens/statis';
 import plan from '../screens/plan';
 import dashboard from '../screens/dashboard';
-
+import Transaction from '../screens/Transaction';
 
 const Tab = createBottomTabNavigator();
 const tabBarOptions = {
@@ -58,7 +58,7 @@ const MainNavigator = () => {
         
         <Tab.Screen
           name="THÊM GIAO DỊCH"
-          component={Movies}
+          component={Transaction}
           options={{
             tabBarIcon: ({size}) => (
               <MaterialIcons name="add-circle" color={"#FED840"} size={size} />
