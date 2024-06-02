@@ -2,11 +2,12 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {View, Switch, TextInput, Text, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-elements';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 
 // import components
-import InfoBox from '../components/infoBox';
+
+// import style sheet
+import styles from '../assets/styleSheet';
 
 const planEdit = ({navigation}) => {
   const route = useRoute();
@@ -14,6 +15,7 @@ const planEdit = ({navigation}) => {
 
   const [isDefault, setIsDefault] = useState(false);
   const [name, onChangeName] = useState(planName);
+  const [nameError, setNameError] = useState(false);
   const [des, onChangeDes] = useState(null);
   const toggleSwitch = () => setIsDefault(previousState => !previousState);
 
@@ -82,9 +84,12 @@ const planEdit = ({navigation}) => {
         />
       </View>
       <View style={{alignSelf: 'flex-start', paddingHorizontal: 20, width: '100%'}}>
-        <Text style={styles.label}>Tên kế hoạch</Text>
+        <View style={styles.labelHeader}>
+          <Text style={styles.label}>Tên kế hoạch</Text>
+          <Text style={styles.errorMessage}> {nameError? 'Không để trống mục này' : null} </Text>
+        </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, nameError ? styles.inputError : null]}
           onChangeText={onChangeName}
           value={name}
           placeholder="Nhập tên ví"
@@ -109,7 +114,7 @@ const planEdit = ({navigation}) => {
             title="Thoát"
             color="#181818"
             buttonStyle={{borderRadius: 20, width: 100, height: 40, backgroundColor: '#181818'}}
-            onPress={() => navigation.navigate('DANH SÁCH KẾ HOẠCH')}  
+            onPress={() => navigation.navigate('CHI TIẾT KẾ HOẠCH', {planName: name})}  
           > 
           </Button>
         </View>
@@ -119,9 +124,16 @@ const planEdit = ({navigation}) => {
             style={{paddingHorizontal: 20}}
             title="Lưu"
             onPress={
-              async () => {
-                if (isDefault) await AsyncStorage.setItem('default_plan', name);
+              async () => {      
+                setNameError(false); 
+                let haveError = false
+                if (name == null || name.trim() == 0) {
+                  setNameError(true);
+                  haveError = true;
+                }
+                if (haveError) return;         
                 await editPlan({title: name, des: des,});
+                if (isDefault) await AsyncStorage.setItem('default_plan', name);
                 navigation.navigate('CHI TIẾT KẾ HOẠCH', {planName: name});
               }
             }  
@@ -133,39 +145,5 @@ const planEdit = ({navigation}) => {
     
   );
 };
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#5E5F65'
-  },
-  input: {
-    height: 45,
-    width: '100%',
-    padding: 10,
-    borderWidth: 1,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderColor: '#D5D8DE'
-  },
-  input_des: {
-    height: '35%',
-    width: '100%',
-    textAlignVertical: "top",
-    padding: 10,
-    borderWidth: 1,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderColor: '#D5D8DE'
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#ffffff",
-  },
-});
+
 export default planEdit;

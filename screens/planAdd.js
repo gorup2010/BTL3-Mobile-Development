@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {View, Switch, TextInput, Text, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-elements';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import components
 import InfoBox from '../components/infoBox';
+// import style sheet
+import styles from '../assets/styleSheet';
 
 const addNewPlan = async (newPlan) => {
   try {
@@ -25,6 +26,7 @@ const addNewPlan = async (newPlan) => {
 const planAdd = ({navigation}) => {
   const [isDefault, setIsDefault] = useState(false);
   const [planName, onChangePlanName] = useState(null);
+  const [planNameError, setPlanNameError] = useState(false);
   const [des, onChangeDes] = useState(null);
   const toggleSwitch = () => setIsDefault(previousState => !previousState);
   
@@ -41,9 +43,12 @@ const planAdd = ({navigation}) => {
         />
       </View>
       <View style={{alignSelf: 'flex-start', paddingHorizontal: 20, width: '100%'}}>
-        <Text style={styles.label}>Tên kế hoạch</Text>
+        <View style={styles.labelHeader}>
+          <Text style={styles.label}>Tên kế hoạch</Text>
+          <Text style={styles.errorMessage}> {planNameError? 'Không để trống mục này' : null} </Text>
+        </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, planNameError ? styles.inputError : null]}
           onChangeText={onChangePlanName}
           value={planName}
           placeholder="Nhập tên kế hoạch"
@@ -79,6 +84,12 @@ const planAdd = ({navigation}) => {
             title="Lưu"
             onPress={
               async () => {
+                let haveError = false
+                if (planName == null || planName.trim() == 0) {
+                  setPlanNameError(true);
+                  haveError = true;
+                }
+                if (haveError) return;
                 if (isDefault) await AsyncStorage.setItem('default_plan', planName);
                 await addNewPlan({title: planName, des: des, target: '0', target_lst: []});
                 navigation.navigate('DANH SÁCH KẾ HOẠCH');
@@ -92,39 +103,5 @@ const planAdd = ({navigation}) => {
     
   );
 };
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#5E5F65'
-  },
-  input: {
-    height: 45,
-    width: '100%',
-    padding: 10,
-    borderWidth: 1,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderColor: '#D5D8DE'
-  },
-  input_des: {
-    height: '35%',
-    width: '100%',
-    textAlignVertical: "top",
-    padding: 10,
-    borderWidth: 1,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderColor: '#D5D8DE'
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#ffffff",
-  },
-});
+
 export default planAdd;

@@ -33,7 +33,6 @@ const expenseLst = [
   'Giáo dục',
   'Hóa đơn điện',
   'Hóa đơn nước',
-  'Khác',
   'Làm đẹp',
   'Mua sắm',
   'Nhà ở',
@@ -43,9 +42,10 @@ const expenseLst = [
   'Thể thao',
   'Thú cưng',
   'Vé số',
+  'Khác',
 ];
 
-const incomeLst = ['Tiền lương', 'Chuyển khoản', 'Đầu tư', 'Khác', 'Qùa tặng', 'Vé số'];
+const incomeLst = ['Tiền lương', 'Chuyển khoản', 'Đầu tư', 'Qùa tặng', 'Vé số', 'Khác',];
 
 export default transactionIconPaths;
 export {expenseLst, incomeLst, transactionIconPaths};

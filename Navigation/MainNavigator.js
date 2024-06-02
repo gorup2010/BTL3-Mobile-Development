@@ -1,17 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View} from 'react-native';
 
 // import screens
-import Movies from '../screens/Movies';
 import wallet from '../screens/wallet';
 import statis from '../screens/statis';
 import plan from '../screens/plan';
 import dashboard from '../screens/dashboard';
-
+import transaction from '../screens/transaction';
 
 const Tab = createBottomTabNavigator();
 const tabBarOptions = {
@@ -58,12 +53,13 @@ const MainNavigator = () => {
         
         <Tab.Screen
           name="THÊM GIAO DỊCH"
-          component={Movies}
+          component={transaction}
           options={{
             tabBarIcon: ({size}) => (
-              <MaterialIcons name="add-circle" color={"#FED840"} size={size} />
+              <MaterialIcons name="add-circle" color={"#181818"} size={50} />
             ),
-            headerShown: false
+            headerShown: true,
+            headerTitleAlign: 'center',
           }}
         />
         

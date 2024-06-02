@@ -159,6 +159,10 @@ const statisExpenseMonth = ({ navigation }) => {
       const currFullDate = new Date();
       const currMonth = currFullDate.getMonth() + 1;
       const currYear = currFullDate.getUTCFullYear();
+      setMonth(currMonth);
+      setYear(currYear);
+      const getTime = 'Tháng ' + currMonth.toString() + '/' + currYear.toString();
+      setCurrTime(getTime);
       // Get Default Wallet
       let storedDefaultWallet = await AsyncStorage.getItem('default_wallet');
       if (storedDefaultWallet != null) {
@@ -237,10 +241,7 @@ const statisExpenseMonth = ({ navigation }) => {
       setChartData(new_chartdata);
       //console.log(chartData);
 
-      setMonth(currMonth);
-
-      setYear(currYear);
-      setCurrTime('Tháng ' + currMonth.toString() + '/' + currYear.toString());
+      
     } catch (error) {
       console.error('Error fetching data: ', error);
     }

@@ -7,6 +7,8 @@ import { useFocusEffect, useRoute } from '@react-navigation/native';
 // import components
 import InfoBox from '../components/infoBox';
 import ScrollList from '../components/scrollList';
+// import services
+import {getTarget, getTotalWalletsBalanace} from '../services/dataFetching'
 
 const walletList = ({navigation}) => {
   const [balance, setBalance] = useState("0");
@@ -23,11 +25,9 @@ const walletList = ({navigation}) => {
         /* Unit Test 
         await AsyncStorage.setItem('curr_balance', '12.0000');
         */
-        const storedBalance = await AsyncStorage.getItem('curr_balance');
-        console.log(storedBalance);
-        if (storedBalance !== null) {
-          setBalance(storedBalance);
-        }
+        const totalBalance = await getTotalWalletsBalanace();
+        setBalance(totalBalance);
+        
         const storedIncome = await AsyncStorage.getItem('curr_income');
         if (storedIncome !== null) {
           setIncome(storedIncome);
@@ -35,10 +35,6 @@ const walletList = ({navigation}) => {
         const storedSpending = await AsyncStorage.getItem('curr_spending');
         if (storedSpending !== null) {
           setSpending(storedSpending);
-        }
-        const storedTarget = await AsyncStorage.getItem('curr_target');
-        if (storedTarget !== null) {
-          setTarget(storedTarget);
         }
         const storedDefaultWallet = await AsyncStorage.getItem('default_wallet');
         if (storedDefaultWallet !== null) {
@@ -48,6 +44,10 @@ const walletList = ({navigation}) => {
         if (storedWalletLst !== null) {
           setWalletLst(JSON.parse(storedWalletLst));
         }
+        // Get target
+        const storedTarget = await getTarget();
+        setTarget(storedTarget);
+        
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -72,7 +72,7 @@ const walletList = ({navigation}) => {
         > 
         </Button>
       </View>
-      <ScrollList dataList={walletLst} default_wallet={defaultWallet} navigation={navigation} option="1">
+      <ScrollList dataList={walletLst} default_wallet={defaultWallet} navigation={navigation} option="1" opheight='75%'>
       </ScrollList>
       
     </View>

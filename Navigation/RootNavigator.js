@@ -1,15 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View} from 'react-native';
 
 // import screens
-import Movies from '../screens/Movies';
-import wallet from '../screens/wallet';
-import statis from '../screens/statis';
 import LogoScreen from '../screens/LogoScreen';
 
 import MainNavigator from './MainNavigator';
