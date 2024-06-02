@@ -15,8 +15,8 @@ const ListItem1 = ({ title, balance, default_wallet, navigation }) => (
   </TouchableOpacity>
 );
 //<TouchableOpacity onPress={() => navigation.navigate('CHI TIẾT VÍ', {walletName: title})}>
-const ListItem2 = ({ type, date, isExpense, value, navigation }) => (
-  
+const ListItem2 = ({ type, date, isExpense, value, note, wallet, navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate('CHI TIẾT GIAO DỊCH', {transaction: {type: type, date: date, isExpense: isExpense, value: value, note: note}, wallet: wallet})}>
   <View style={styles.item}>
     <Image source={transactionIconPaths[type]} />
     <View style={{display: 'flex', alignItems:'flex-end'}}>
@@ -30,6 +30,7 @@ const ListItem2 = ({ type, date, isExpense, value, navigation }) => (
       <Text style={{fontSize: 12, fontWeight: 'bold', color: "#00E879"}}>+{value} VND</Text>}
     </View>
   </View>
+  </TouchableOpacity>
 );
 
 const ListItem3 = ({ type, value, isExpense, navigation }) => (
@@ -103,9 +104,38 @@ const ListItem6 = ({ list, onPressFunc, navigation }) => (
   </View>
 );
 
-ListItem6.propTypes = {
-  onPressFunc: PropTypes.func.isRequired,
-};
+const ListItem7 =  ({ type, target, currExpense, isExpense = false, navigation }) => (
+  
+  <View style={styles.item}>
+    <Image source={transactionIconPaths[type]} />
+    <View style={{display: 'flex', alignItems:'flex-end'}}>
+      <Text style={{fontSize: 14, fontWeight: 'bold',}}>{type}</Text>
+    </View>
+    <View style={{display: 'flex', flexDirection: 'column', width: '50%', alignItems:'flex-end'}}>
+      <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems:'center'}}>
+        <Text style={{fontSize: 12, fontStyle: 'italic', color: '#A4A6B2'}}>Mục tiêu</Text>
+        <Text style={{fontSize: 12, fontWeight: 'bold', color: "#00D2EE"}}>-{target} VND</Text>
+      </View>
+      <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between',alignItems:'center'}}>
+        <Text style={{fontSize: 12, fontStyle: 'italic', color: '#A4A6B2'}}>Chi hiện tại</Text>
+        <Text style={{fontSize: 12, fontWeight: 'bold', color: "#EF736D"}}>-{currExpense} VND</Text>
+      </View>
+    </View>
+  </View>
+);
+
+const ListItem8 = ({ title, balance, default_wallet, onPressFunc, navigation }) => (
+  <TouchableOpacity onPress={async () => await onPressFunc(title)}>
+  <View style={styles.item}>
+    <Text style={{fontWeight: 'bold', fontSize: 12,}}>{title}</Text>
+    <Text style={{fontStyle: 'italic', color: '#5E5F65', fontSize: 11}}>{(default_wallet==title)? "mặc định" : ""}</Text>
+    <View style={{display: 'flex', alignItems:'flex-end'}}>
+      <Text style={{fontSize: 12, fontWeight: 'bold',}}>Số dư</Text>
+      <Text style={{fontSize: 12, fontWeight: 'bold', color: '#00E879'}}>{balance} VND</Text>
+    </View>
+  </View>
+  </TouchableOpacity>
+);
 
 const styles = StyleSheet.create({
   item: {
@@ -135,4 +165,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export {ListItem1, ListItem2, ListItem3, ListItem4, ListItem5, ListItem6};
+export {ListItem1, ListItem2, ListItem3, ListItem4, ListItem5, ListItem6, ListItem7, ListItem8};

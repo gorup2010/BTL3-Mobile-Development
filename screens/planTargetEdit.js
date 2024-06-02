@@ -5,6 +5,8 @@ import { Button } from 'react-native-elements';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 
 // import components
+// import stye sheet
+import styles from '../assets/styleSheet';
 
 const planTargetEdit = ({ navigation }) => {
   const route = useRoute();
@@ -12,7 +14,8 @@ const planTargetEdit = ({ navigation }) => {
   const { planName } = route.params;
 
   const [totalTarget, setTotalTarget] = useState(0);
-  const [target, onChangeTarget] = useState("0");
+  const [target, onChangeTarget] = useState(null);
+  const [targetError, setTargetError] = useState(false);
   const [note, onChangeNote] = useState(null);
 
   const editTarget = async (newTarget) => {
@@ -37,15 +40,15 @@ const planTargetEdit = ({ navigation }) => {
       for (let i in storedTargetLst) {
         if (storedTargetLst[i]['type'] == type) {
           //console.log(storedTargetLst[i]);
-          tempTotalTarget -=  parseInt(storedTargetLst[i]['target']);
+          tempTotalTarget -= parseInt(storedTargetLst[i]['target']);
           //console.log(tempTotalTarget);
           storedTargetLst[i]['target'] = newTarget['target'];
-          tempTotalTarget +=  parseInt(storedTargetLst[i]['target']);
+          tempTotalTarget += parseInt(storedTargetLst[i]['target']);
           //console.log(tempTotalTarget);
           storedTargetLst[i]['note'] = newTarget['note'];
           storedPlan['target'] = tempTotalTarget.toString();
         }
-      } 
+      }
 
       await AsyncStorage.setItem('plan_lst', JSON.stringify(storedPlanLst));
     } catch (error) {
@@ -74,12 +77,10 @@ const planTargetEdit = ({ navigation }) => {
               storedTargetItem = storedPlan['target_lst'][i];
               onChangeTarget(storedTargetItem['target']);
               onChangeNote(storedTargetItem['note']);
-        
             }
           }
           //onChangeTarget(storedTarget);
           //onChangeNote(storedNote);
-          
         } catch (error) {
           console.error('Error fetching data: ', error);
         }
@@ -104,14 +105,16 @@ const planTargetEdit = ({ navigation }) => {
           width: '100%',
         }}>
         <Text style={styles.label}>Phân loại</Text>
+        <TextInput style={styles.input} value={type} editable={false} />
+        <View style={styles.labelHeader}>
+          <Text style={styles.label}>Mục tiêu</Text>
+          <Text style={styles.errorMessage}>
+            {' '}
+            {targetError ? 'Không để trống mục này' : null}{' '}
+          </Text>
+        </View>
         <TextInput
-          style={styles.input}
-          value={type}
-          editable={false}
-        />
-        <Text style={styles.label}>Mục tiêu</Text>
-        <TextInput
-          style={styles.input}
+          style={[styles.input, targetError ? styles.inputError : null]}
           onChangeText={onChangeTarget}
           value={target}
           placeholder="Nhập mục tiêu chi tiêu"
@@ -147,7 +150,12 @@ const planTargetEdit = ({ navigation }) => {
               height: 40,
               backgroundColor: '#181818',
             }}
-            onPress={() => navigation.navigate('CHI TIẾT MỤC TIÊU', {type: type, planName: planName})}></Button>
+            onPress={() =>
+              navigation.navigate('CHI TIẾT MỤC TIÊU', {
+                type: type,
+                planName: planName,
+              })
+            }></Button>
         </View>
         <View style={{ padding: 20 }}>
           <Button
@@ -160,47 +168,26 @@ const planTargetEdit = ({ navigation }) => {
             style={{ paddingHorizontal: 20 }}
             title="Lưu"
             onPress={async () => {
-              await editTarget({ type: type, target: target.toString(), note: note });
-              navigation.navigate('CHI TIẾT MỤC TIÊU', {type: type, planName: planName});
+              setTargetError(false);
+              if (target == null || target.trim() == 0) {
+                setTargetError(true);
+                haveError = true;
+              }
+              if (haveError) return;
+              await editTarget({
+                type: type,
+                target: target.toString(),
+                note: note,
+              });
+              navigation.navigate('CHI TIẾT MỤC TIÊU', {
+                type: type,
+                planName: planName,
+              });
             }}></Button>
         </View>
       </View>
     </View>
   );
 };
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#5E5F65',
-  },
-  input: {
-    height: 45,
-    width: '100%',
-    padding: 10,
-    borderWidth: 1,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderColor: '#D5D8DE',
-  },
-  input_des: {
-    height: '35%',
-    width: '100%',
-    textAlignVertical: 'top',
-    padding: 10,
-    borderWidth: 1,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderColor: '#D5D8DE',
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-  },
-});
+
 export default planTargetEdit;

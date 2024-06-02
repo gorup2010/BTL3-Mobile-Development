@@ -50,7 +50,7 @@ const planDetail = ({ navigation }) => {
   const route = useRoute();
   const { planName } = route.params;
 
-  const [name, setName] = useState(planName);
+  const [name, setName] = useState('');
   const [target, setTarget] = useState('0');
   const [des, setDes] = useState('');
   const [defaultPlan, setDefaultPlan] = useState('Kế hoạch chính');
@@ -60,6 +60,7 @@ const planDetail = ({ navigation }) => {
     useCallback(async () => {
       const fetchData = async () => {
         try {
+          setName(planName);
           const storedPlanLst = JSON.parse(
             await AsyncStorage.getItem('plan_lst')
           );
@@ -68,7 +69,7 @@ const planDetail = ({ navigation }) => {
           let description = '';
           let plan_index = 0;
           for (let i in storedPlanLst) {
-            if (storedPlanLst[i]['title'] == name) {
+            if (storedPlanLst[i]['title'] == planName) {
               plan_index = i;
               currTarget = storedPlanLst[i]['target'];
               description = storedPlanLst[i]['des'];
@@ -93,7 +94,7 @@ const planDetail = ({ navigation }) => {
       return () => {
         console.log('Chi tiết kế hoạch is unfocused');
       };
-    }, [])
+    }, [route.params])
   );
 
   //console.log("curr target: ", target);

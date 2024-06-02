@@ -4,26 +4,35 @@ import { PieChart } from 'react-native-svg-charts';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 
 
-const InfoBox = ({ balance, income, spending, target }) => {
+const InfoBox = ({ balance, income, spending, target, option="1" }) => {
   
   return (
     <View style={styles.card}>
+      { (option != "3") ?
+      <>
       <View style={styles.item}>
-        <Text style={styles.name}>Tổng số dư các ví:</Text>
+        <Text style={styles.name}>{(option == "1") ? 'Tổng số dư các ví: ' : 'Số dư ví: '}</Text>
         <Text style={styles.balance}>{balance} VND</Text>
       </View>
+      </>: null
+      }
+      { (option == '2' || option == "3") ?
+      <>
       <View style={styles.item}>
-        <Text style={styles.name}>Thu nhập hằng tháng:</Text>
+        <Text style={styles.name}>{(option == "1") ? 'Tổng thu nhập tháng: ' : 'Thu nhập tháng: '}</Text>
         <Text style={styles.income}>+{income} VND</Text>
       </View>
       <View style={styles.item}>
-        <Text style={styles.name}>Chi tiêu tháng:</Text>
+        <Text style={styles.name}>{(option == "1") ? 'Tổng chi tiêu tháng: ' : 'Chi tiêu tháng: '}</Text>
         <Text style={styles.spending}>-{spending} VND</Text>
       </View>
+      { (option == "2") ?
+      <>
       <View style={styles.item}>
         <Text style={styles.name}>Mục tiêu chi tiêu:</Text>
         <Text style={styles.target}>-{target} VND</Text>
-      </View>
+      </View></>:null}</> : null
+      }
     </View>
   );
 };
