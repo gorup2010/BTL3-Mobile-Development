@@ -6,7 +6,9 @@ import wallet from '../screens/wallet';
 import statis from '../screens/statis';
 import plan from '../screens/plan';
 import dashboard from '../screens/dashboard';
+
 import transaction from '../screens/transaction';
+
 
 const Tab = createBottomTabNavigator();
 const tabBarOptions = {
