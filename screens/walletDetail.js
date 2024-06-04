@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+
 // import components
 import ScrollList from '../components/scrollList';
 
@@ -50,10 +51,9 @@ const showConfirmDeleteDialog = (navigation, name, balance) =>
 
 
 const walletDetail = ({navigation}) => {
-  const route = useRoute();
+  let route = useRoute();
   const { walletName } = route.params;
-
-  const [name, setName] = useState(walletName);
+  const [name, setName] = useState('');
   const [balance, setBalance] = useState("0");
   const [des, setDes] = useState("");
   const [defaultWallet, setDefaultWallet] = useState("Ví chính");
@@ -63,13 +63,15 @@ const walletDetail = ({navigation}) => {
     useCallback(async () => {
       const fetchData = async () => {
       try {
+      
+        setName(walletName);
         const storedWalletLst = JSON.parse(await AsyncStorage.getItem('wallet_lst'));
         let currBalance = "0";
         let description = '';
         let wallet_index = 0;
         for (let i in storedWalletLst) {
           
-          if (storedWalletLst[i]['title'] == name) {  
+          if (storedWalletLst[i]['title'] == walletName) {  
             wallet_index = i;
             //console.log(storedWalletLst[wallet_index]);
             currBalance = storedWalletLst[i]['balance'];
@@ -95,7 +97,7 @@ const walletDetail = ({navigation}) => {
     return () => {
       console.log('Chi tiết ví is unfocused');
     };
-  }, [])
+  }, [route.params])
 );
   
   return (
@@ -143,7 +145,7 @@ const walletDetail = ({navigation}) => {
       <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center',}}>
       </View>
     </View>
-    <ScrollList dataList={wallet['transaction_lst']} default_wallet={defaultWallet} navigation={navigation} option="2">
+    <ScrollList dataList={wallet['transaction_lst']} default_wallet={defaultWallet} navigation={navigation} wallet={name} option="2">
     </ScrollList>
   </View>
     

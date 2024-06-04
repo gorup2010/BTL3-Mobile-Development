@@ -6,6 +6,8 @@ import walletList from './walletList';
 import walletAdd from './walletAdd';
 import walletDetail from './walletDetail';
 import walletEdit from './walletEdit';
+import walletTransactionDetail from './walletTransactionDetail';
+import walletTransactionEdit from './walletTransactionEdit';
 
 
 const Stack = createStackNavigator();
@@ -24,6 +26,8 @@ const wallet = () => {
       <Stack.Screen name="THÊM VÍ MỚI" component={walletAdd} />
       <Stack.Screen name="CHI TIẾT VÍ" component={walletDetail} />
       <Stack.Screen name="CHỈNH SỬA VÍ" component={walletEdit} />
+      <Stack.Screen name="CHI TIẾT GIAO DỊCH" component={walletTransactionDetail} />
+      <Stack.Screen name="CHỈNH SỬA GIAO DỊCH" component={walletTransactionEdit} />
     </Stack.Navigator>
   );
 }

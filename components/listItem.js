@@ -1,29 +1,6 @@
-import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-
-const transactionIconPaths = {
-  'Ăn uống': require('../assets/transaction_icon/Ăn uống.png'),
-  'Tiền lương': require('../assets/transaction_icon/Tiền lương.png'),
-  'Chữa bệnh': require('../assets/transaction_icon/Chữa bệnh.png'),
-  'Chuyển khoản': require('../assets/transaction_icon/Chuyển khoản.png'),
-  'Đầu tư': require('../assets/transaction_icon/Đầu tư.png'),
-  'Di chuyển': require('../assets/transaction_icon/Di chuyển.png'),
-  'Du lịch': require('../assets/transaction_icon/Du lịch.png'),
-  'Giải trí': require('../assets/transaction_icon/Giải trí.png'),
-  'Giáo dục': require('../assets/transaction_icon/Giáo dục.png'),
-  'Hóa đơn điện': require('../assets/transaction_icon/Hóa đơn điện.png'),
-  'Hóa đơn nước': require('../assets/transaction_icon/Hóa đơn nước.png'),
-  'Khác': require('../assets/transaction_icon/Khác.png'),
-  'Làm đẹp': require('../assets/transaction_icon/Làm đẹp.png'),
-  'Mua sắm': require('../assets/transaction_icon/Mua sắm.png'),
-  'Nhà ở': require('../assets/transaction_icon/Nhà ở.png'),
-  'Qùa tặng': require('../assets/transaction_icon/Qùa tặng.png'),
-  'Quyên góp': require('../assets/transaction_icon/Quyên góp.png'),
-  'Sửa chữa': require('../assets/transaction_icon/Sửa chữa.png'),
-  'Thể thao': require('../assets/transaction_icon/Thể thao.png'),
-  'Thú cưng': require('../assets/transaction_icon/Thú cưng.png'),
-  'Vé số': require('../assets/transaction_icon/Vé số.png'),
-};
+import transactionIconPaths from './transactionIcon';
+import PropTypes from 'prop-types';
 
 const ListItem1 = ({ title, balance, default_wallet, navigation }) => (
   <TouchableOpacity onPress={() => navigation.navigate('CHI TIẾT VÍ', {walletName: title})}>
@@ -38,8 +15,8 @@ const ListItem1 = ({ title, balance, default_wallet, navigation }) => (
   </TouchableOpacity>
 );
 //<TouchableOpacity onPress={() => navigation.navigate('CHI TIẾT VÍ', {walletName: title})}>
-const ListItem2 = ({ type, date, isExpense, value, navigation }) => (
-  
+const ListItem2 = ({ type, date, isExpense, value, note, wallet, navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate('CHI TIẾT GIAO DỊCH', {transaction: {type: type, date: date, isExpense: isExpense, value: value, note: note}, wallet: wallet})}>
   <View style={styles.item}>
     <Image source={transactionIconPaths[type]} />
     <View style={{display: 'flex', alignItems:'flex-end'}}>
@@ -53,6 +30,111 @@ const ListItem2 = ({ type, date, isExpense, value, navigation }) => (
       <Text style={{fontSize: 12, fontWeight: 'bold', color: "#00E879"}}>+{value} VND</Text>}
     </View>
   </View>
+  </TouchableOpacity>
+);
+
+const ListItem3 = ({ type, value, isExpense, navigation }) => (
+  
+  <View style={styles.item}>
+    <Image source={transactionIconPaths[type]} />
+    <View style={{display: 'flex', alignItems:'flex-end'}}>
+      <Text style={{fontSize: 14, fontWeight: 'bold',}}>{type}</Text>
+    </View>
+    <View style={{display: 'flex', flexDirection: 'row', width: '50%', justifyContent: 'space-between',alignItems:'center'}}>
+      <Text style={{fontSize: 12, fontStyle: 'italic', color: '#A4A6B2'}}>{(isExpense) ? "Chi phí: " : "Thu nhập: "}</Text>
+      {(isExpense) ? 
+      <Text style={{fontSize: 12, fontWeight: 'bold', color: "#EF736D"}}>-{value} VND</Text> : 
+      <Text style={{fontSize: 12, fontWeight: 'bold', color: "#00E879"}}>+{value} VND</Text>}
+    </View>
+  </View>
+);
+
+const ListItem4 = ({ title, default_plan, navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate('CHI TIẾT KẾ HOẠCH', {planName: title})}>
+  <View style={styles.item}>
+    <View style={{display: 'flex', alignItems:'flex-end'}}>
+      <Text style={{fontSize: 14, fontWeight: 'bold',}}>{title}</Text>
+    </View>
+    <View style={{display: 'flex', flexDirection: 'row', width: '30%', justifyContent: 'space-between',alignItems:'center'}}>
+      <Text style={{fontStyle: 'italic', color: '#5E5F65', fontSize: 11}}>{(default_plan==title)? "đang áp dụng" : ""}</Text>
+    </View>
+  </View>
+  </TouchableOpacity>
+);
+
+const ListItem5 = ({ type, plan, target, navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate('CHI TIẾT MỤC TIÊU', {type: type, planName: plan})}>
+  <View style={styles.item}>
+    <Image source={transactionIconPaths[type]} />
+    <View style={{display: 'flex', alignItems:'flex-end'}}>
+      <Text style={{fontSize: 14, fontWeight: 'bold',}}>{type}</Text>
+    </View>
+    <View style={{display: 'flex', flexDirection: 'row', width: '50%', justifyContent: 'space-between',alignItems:'center'}}>
+      <Text style={{fontSize: 12, fontStyle: 'italic', color: '#A4A6B2'}}>Mục tiêu: </Text> 
+      <Text style={{fontSize: 12, fontWeight: 'bold', color: "#EF736D"}}>-{target} VND</Text>
+    </View>
+  </View>
+  </TouchableOpacity>
+);
+
+const ListItem6 = ({ list, onPressFunc, navigation }) => (
+  <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center', alignItems: 'center', padding: 10}}>
+    <TouchableOpacity style={styles.icon} onPress={async () => 
+        {
+          console.log(list[0]);
+          await onPressFunc(list[0]);}
+      }>
+      <View style={styles.icon_1}>
+        <Image style={{padding: 8}} source={transactionIconPaths[list[0]]} />
+        <Text style={{paddingVertical: 8}}>{list[0]}</Text>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.icon} onPress={async () => await onPressFunc(list[1])}>
+      <View style={styles.icon_1}>
+        <Image style={{padding: 8}} source={transactionIconPaths[list[1]]} />
+        <Text style={{paddingVertical: 8}}>{list[1]}</Text>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.icon} onPress={async () => await onPressFunc(list[2])}>
+      <View style={styles.icon_1}>
+        <Image style={{padding: 8}} source={transactionIconPaths[list[2]]} />
+        <Text style={{paddingVertical: 8}}>{list[2]}</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+);
+
+const ListItem7 =  ({ type, target, currExpense, isExpense = false, navigation }) => (
+  
+  <View style={styles.item}>
+    <Image source={transactionIconPaths[type]} />
+    <View style={{display: 'flex', alignItems:'flex-end'}}>
+      <Text style={{fontSize: 14, fontWeight: 'bold',}}>{type}</Text>
+    </View>
+    <View style={{display: 'flex', flexDirection: 'column', width: '50%', alignItems:'flex-end'}}>
+      <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems:'center'}}>
+        <Text style={{fontSize: 12, fontStyle: 'italic', color: '#A4A6B2'}}>Mục tiêu</Text>
+        <Text style={{fontSize: 12, fontWeight: 'bold', color: "#00D2EE"}}>-{target} VND</Text>
+      </View>
+      <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between',alignItems:'center'}}>
+        <Text style={{fontSize: 12, fontStyle: 'italic', color: '#A4A6B2'}}>Chi hiện tại</Text>
+        <Text style={{fontSize: 12, fontWeight: 'bold', color: "#EF736D"}}>-{currExpense} VND</Text>
+      </View>
+    </View>
+  </View>
+);
+
+const ListItem8 = ({ title, balance, default_wallet, onPressFunc, navigation }) => (
+  <TouchableOpacity onPress={async () => await onPressFunc(title)}>
+  <View style={styles.item}>
+    <Text style={{fontWeight: 'bold', fontSize: 12,}}>{title}</Text>
+    <Text style={{fontStyle: 'italic', color: '#5E5F65', fontSize: 11}}>{(default_wallet==title)? "mặc định" : ""}</Text>
+    <View style={{display: 'flex', alignItems:'flex-end'}}>
+      <Text style={{fontSize: 12, fontWeight: 'bold',}}>Số dư</Text>
+      <Text style={{fontSize: 12, fontWeight: 'bold', color: '#00E879'}}>{balance} VND</Text>
+    </View>
+  </View>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
@@ -69,6 +151,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  icon: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '30%'
+  },
+  icon_1: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%'
+  }
 });
 
-export {ListItem1, ListItem2};
+export {ListItem1, ListItem2, ListItem3, ListItem4, ListItem5, ListItem6, ListItem7, ListItem8};

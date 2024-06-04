@@ -5,6 +5,8 @@ import { Button } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import components
 import InfoBox from '../components/infoBox';
+// import style sheeet
+import styles from '../assets/styleSheet';
 
 const addNewWallet = async (newWallet) => {
   try {
@@ -28,7 +30,9 @@ const addNewWallet = async (newWallet) => {
 const walletAdd = ({navigation}) => {
   const [isDefault, setIsDefault] = useState(false);
   const [walletName, onChangeWalletName] = useState(null);
+  const [walletNameError, setWalletNameError] = useState(false);
   const [balance, onChangeBalance] = useState(null);
+  const [balanceError, setBalanceError] = useState(false);
   const [des, onChangeDes] = useState(null);
   const toggleSwitch = () => setIsDefault(previousState => !previousState);
   
@@ -45,16 +49,22 @@ const walletAdd = ({navigation}) => {
         />
       </View>
       <View style={{alignSelf: 'flex-start', paddingHorizontal: 20, width: '100%'}}>
-        <Text style={styles.label}>Tên ví</Text>
+        <View style={styles.labelHeader}>
+          <Text style={styles.label}>Tên ví</Text>
+          <Text style={styles.errorMessage}> {walletNameError? 'Không để trống mục này' : null} </Text>
+        </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, walletNameError ? styles.inputError : null]}
           onChangeText={onChangeWalletName}
           value={walletName}
           placeholder="Nhập tên ví"
         />
-        <Text style={styles.label}>Số dư khả dụng</Text>
+        <View style={styles.labelHeader}>
+          <Text style={styles.label}>Số dư khả dụng</Text>
+          <Text style={styles.errorMessage}> {balanceError? 'Không để trống mục này' : null} </Text>
+        </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, balanceError ? styles.inputError : null]}
           onChangeText={onChangeBalance}
           value={balance}
           placeholder="Nhập số dư"
@@ -91,8 +101,20 @@ const walletAdd = ({navigation}) => {
             title="Lưu"
             onPress={
               async () => {
+                setWalletNameError(false);
+                setBalanceError(false);
+                let haveError = false
+                if (walletName == null || walletName.trim() == 0) {
+                  setWalletNameError(true);
+                  haveError = true;
+                }
+                if (balance == null || balance.trim() == 0) {
+                  setBalanceError(true);
+                  haveError = true;
+                }
+                if (haveError) return;
                 if (isDefault) await AsyncStorage.setItem('default_wallet', walletName);
-                await addNewWallet({title: walletName, balance: balance, des: des,});
+                await addNewWallet({title: walletName, balance: balance, des: des, transaction_lst: []});
                 navigation.navigate('DANH SÁCH VÍ');
               }
             }  
@@ -104,39 +126,5 @@ const walletAdd = ({navigation}) => {
     
   );
 };
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#5E5F65'
-  },
-  input: {
-    height: 45,
-    width: '100%',
-    padding: 10,
-    borderWidth: 1,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderColor: '#D5D8DE'
-  },
-  input_des: {
-    height: '35%',
-    width: '100%',
-    textAlignVertical: "top",
-    padding: 10,
-    borderWidth: 1,
-    paddingVertical: 10,
-    marginVertical: 10,
-    borderRadius: 20,
-    borderColor: '#D5D8DE'
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#ffffff",
-  },
-});
+
 export default walletAdd;
