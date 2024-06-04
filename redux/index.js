@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+/*import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./auth/authSlice";
 
 export const store = configureStore({
@@ -7,4 +7,4 @@ export const store = configureStore({
   },
 });
 
-export default store;
+export default store;*/
