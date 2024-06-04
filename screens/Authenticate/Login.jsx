@@ -7,17 +7,15 @@ import {
   KeyboardAvoidingView,
   Dimensions
 } from "react-native";
-import color from "../../constants/color";
 import Logo from "../../assets/Logo";
 import AuthInput from "../../components/AuthInput";
 import { useEffect, useState } from "react";
 import { Button } from "@rneui/themed";
 import { isValidEmail, isValidPassword } from "../../utils/inputValidation";
-import { useDispatch } from "react-redux";
-import { authActions } from "../../redux/auth/authSlice";
 import LoadingOverlay from "./LoadingOverlay";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { login } from "../../services/authenticate";
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -25,7 +23,6 @@ export default function Login({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const disPatch = useDispatch();
   const [invalidEmail, setInvalidEmail] = useState(null);
   const [invalidPassword, setInvalidPassword] = useState(null);
   useEffect(() => {
@@ -33,10 +30,10 @@ export default function Login({ navigation }) {
   }, [navigation]);
 
   async function getToken() {
-    const storedToken = await AsyncStorage.getItem("CtimeToken");
-    const storedId = await AsyncStorage.getItem("CtimeId");
+    const storedToken = await AsyncStorage.getItem("MoneyTrackerToken");
+    const storedId = await AsyncStorage.getItem("MoneyTrackerId");
     if (storedToken) {
-      disPatch(authActions.login({ token: storedToken, id: storedId }));
+      //disPatch(authActions.login({ token: storedToken, id: storedId }));
       goToHomePage();
     }
     setIsLoading(false);
@@ -52,8 +49,12 @@ export default function Login({ navigation }) {
         token: authToken,
         message,
         id,
-      } = { token: "1234", message: "Hello", id: "12334" };
-      disPatch(authActions.login({ token: authToken, id: id }));
+      } = await login(email, password);
+      // disPatch(authActions.login({ token: authToken, id: id }));
+      
+      await AsyncStorage.setItem("MoneyTrackerToken", authToken)
+      await AsyncStorage.setItem("MoneyTrackerId", id)
+      
       goToHomePage();
       setIsLoading(false);
     } catch (error) {

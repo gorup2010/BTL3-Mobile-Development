@@ -8,6 +8,7 @@ import LogoScreen from '../screens/LogoScreen';
 
 import MainNavigator from './MainNavigator';
 import OnBoardingStack from './OnboardingStack.jsx';
+import AuthStack from './AuthStack.jsx';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +63,8 @@ const RootNavigator = () => {
             component={OnBoardingStack}
             options={{ headerShown: false }}
           /> : null }
+
+          <Stack.Screen name="Authenticate" component={AuthStack} />
 
           <Stack.Screen
             name="Main"

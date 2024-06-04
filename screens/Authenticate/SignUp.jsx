@@ -22,6 +22,7 @@ import {
   isValidUsername,
 } from "../../utils/inputValidation";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { signUp } from "../../services/authenticate";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -85,7 +86,7 @@ export default function SignUp({ navigation }) {
         token: authToken,
         message,
         id,
-      } = { token: "123456", message: "", id: "mmmemm" };
+      } = await signUp(username, email, password);
       setIsLoading(false);
       setSuccess(true);
     } catch (error) {
