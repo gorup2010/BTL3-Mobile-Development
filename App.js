@@ -1,7 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { Provider } from "react-redux";
-import store from "./redux/index.js";
 import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -104,7 +102,6 @@ function Root() {
   async function checkFirstLoad() {
     setIsLoading(true);
     const RunState = await AsyncStorage.getItem("CtimeFirstLoad");
-    console.log("Runrun ", RunState);
     if (!RunState) setIsFirstLoad(true);
     await AsyncStorage.setItem("CtimeFirstLoad", "false");
     setIsLoading(false);
@@ -128,9 +125,9 @@ function Root() {
           //   <Stack.Screen name="OnBoarding" component={OnBoardingStack} />
           // )}
         }
-        <Stack.Screen name="OnBoarding" component={OnboardingScreen} />
-        <Stack.Screen name="Authenticate" component={HomeScreen} />
-        {/*<Stack.Screen name="Main" component={Main} />*/}
+        {false&&<Stack.Screen name="OnBoarding" component={OnboardingScreen} />}
+        <Stack.Screen name="Authenticate" component={AuthStack} />
+        <Stack.Screen name="Main" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

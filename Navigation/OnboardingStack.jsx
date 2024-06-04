@@ -89,12 +89,12 @@ export default function OnBoardingStack({ navigation }) {
         onSkip={async () => {
           await AsyncStorage.setItem('isFirstLaunch', "false");
           console.log("Skip onboarding");
-          navigation.navigate("Main");
+          navigation.navigate("Authenticate");
         }}
         onDone={async () => {
           await AsyncStorage.setItem('isFirstLaunch', "false");
           console.log("Done onboarding");
-          navigation.navigate("Main");
+          navigation.navigate("Authenticate");
         }}
         bottomBarColor={"white"}
         DotComponent={Square}
