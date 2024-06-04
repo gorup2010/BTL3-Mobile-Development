@@ -11,15 +11,11 @@ import {
 
 import React, { useState, useEffect } from "react";
 import AuthInput from "../../components/AuthInput";
-import color from "../../constants/color";
 import { Button } from "@rneui/themed";
 import Logo from "../../assets/Logo";
 import LoadingOverlay from "./LoadingOverlay";
 // import { signUp } from "../../utils/authenticate";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Modal } from "react-native";
-import { useDispatch } from "react-redux";
-import { authActions } from "../../redux/auth/authSlice";
 import {
   isValidEmail,
   isValidPassword,
@@ -40,18 +36,6 @@ export default function SignUp({ navigation }) {
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidConfirmPassword, setInvalidConfirmPassword] = useState(false);
   const [success, setSuccess] = useState(false);
-  const disPatch = useDispatch();
-  const [timeLeft, setTimeLeft] = useState();
-  useEffect(() => {
-    if (timeLeft == 0) {
-      goToHomePage();
-    }
-    if (!timeLeft) return;
-    const intervalId = setInterval(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [timeLeft]);
 
   function goToHomePage() {
     navigation.replace("Main");
@@ -102,10 +86,8 @@ export default function SignUp({ navigation }) {
         message,
         id,
       } = { token: "123456", message: "", id: "mmmemm" };
-      disPatch(authActions.login({ token: authToken, id: id }));
       setIsLoading(false);
       setSuccess(true);
-      setTimeLeft(3);
     } catch (error) {
       if (error.response) {
         const errorData = error.response.data;
@@ -136,7 +118,7 @@ export default function SignUp({ navigation }) {
   function updateConfirmPassword(text) {
     setConfirmPassword(text);
   }
-  function signUpButtonHandler() {
+  function goToLogin() {
     navigation.navigate("Login");
   }
   if (isLoading) return <LoadingOverlay />;
@@ -148,7 +130,7 @@ export default function SignUp({ navigation }) {
       <View style={styles.container}>
         {success ? (
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center", height: screenHeight }}
           >
             <Image
               style={styles.modalImage}
@@ -157,9 +139,11 @@ export default function SignUp({ navigation }) {
             <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 2 }}>
               Hoàn tất đăng ký!
             </Text>
-            <Text style={[styles.content]}>
-              Tự động chuyển đến trang chủ trong {timeLeft} giây
-            </Text>
+            <View style={{ height: "10%", paddingHorizontal: "15%" }}>
+              <Button onPress={goToLogin} size="md">
+                Quay về trang đăng nhập.
+              </Button>
+            </View>
           </View>
         ) : (
           <>
@@ -249,12 +233,12 @@ export default function SignUp({ navigation }) {
                 justifyContent: "center",
                 marginBottom: 20,
                 marginTop: 20,
-                height: screenHeight * 5 / 100,
+                height: (screenHeight * 5) / 100,
               }}
             >
               <Text style={[styles.text]}>Bạn đã có tài khoản? </Text>
               <Text
-                onPress={signUpButtonHandler}
+                onPress={goToLogin}
                 style={[styles.text, { color: "#EF7A6D" }]}
               >
                 Đăng nhập tại đây

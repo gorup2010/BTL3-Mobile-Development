@@ -179,12 +179,6 @@ export default function Login({ navigation }) {
             style={{ alignItems: "center", marginTop: "2%", height: screenHeight * 30 / 100 }}
           >
             <Button onPress={loginHandler}>ĐĂNG NHẬP</Button>
-            <Text
-              style={[styles.text, { color: "black", paddingVertical: "1.5%" }]}
-            >
-              Hoặc
-            </Text>
-            <Button onPress={goToHomePage}>SỬ DỤNG NGAY</Button>
           </View>
           <View
             style={{
