@@ -12,7 +12,7 @@ export default function AuthStack() {
     <Stack.Navigator
       screenOptions={{
         animation: "slide_from_right",
-        headerShown: true,
+        headerShown: false,
         headerTitleAlign: "center",
         headerTitleStyle: {
           // fontFamily: "montserrat-black",

@@ -32,10 +32,10 @@ export default function Login({ navigation }) {
   async function getToken() {
     const storedToken = await AsyncStorage.getItem("MoneyTrackerToken");
     const storedId = await AsyncStorage.getItem("MoneyTrackerId");
-    if (storedToken) {
-      //disPatch(authActions.login({ token: storedToken, id: storedId }));
-      goToHomePage();
-    }
+    // if (storedToken) {
+    //   //disPatch(authActions.login({ token: storedToken, id: storedId }));
+    //   goToHomePage();
+    // }
     setIsLoading(false);
   }
 
