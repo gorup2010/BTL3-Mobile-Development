@@ -21,7 +21,7 @@ const plan = () => {
         },
       }}
     >
-      <Stack.Screen name="DANH SÁCH KẾ HOẠCH" component={planList} />
+      <Stack.Screen name="DANH SÁCH KẾ HOẠCH" component={planList} options={{headerLeft: ()=> null}}/>
       <Stack.Screen name="THÊM KẾ HOẠCH" component={planAdd} />
       <Stack.Screen name="CHI TIẾT KẾ HOẠCH" component={planDetail} />
       <Stack.Screen name="CHỈNH SỬA KẾ HOẠCH" component={planEdit} />

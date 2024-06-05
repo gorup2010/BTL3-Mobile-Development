@@ -66,11 +66,26 @@ const dashboardDetail = ({ navigation }) => {
     }, [])
   );
 
+  const [username, setUsername] = useState("");
   //console.log('Compare List: ', Array.isArray(compareLst));
+  useEffect(async () => {
+    const name = await AsyncStorage.getItem('MoneyTrackerId');
+    setUsername(name);
+  }, [])
 
 
   return (
     <View style={styles.container}>
+    <Text
+        style={{
+          color: '#181818',
+          fontWeight: 'bold',
+          fontSize: 20,
+          alignSelf: 'flex-start',
+          paddingHorizontal: 20,
+        }}>
+        Chào mừng bạn trở lại {username}
+      </Text>
       <Text
         style={{
           color: '#181818',
