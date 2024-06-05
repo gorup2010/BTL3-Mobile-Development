@@ -29,7 +29,7 @@ const RootNavigator = () => {
         const value = await AsyncStorage.getItem("isFirstLaunch");
 
         if (value === null || value === "false") {
-          //await AsyncStorage.setItem('isFirstLaunch', 'false');
+          await AsyncStorage.setItem('isFirstLaunch', 'false');
           setIsFirstLaunch(true);
           //console.log("Set isFirstLaunch true");
         } else if (value === true) {

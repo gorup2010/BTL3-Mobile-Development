@@ -1,15 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { Button } from '@rneui/themed';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import dashboardDetail from './dashboardDetail';
 import transactionHistory from './transactionHistory';
 import transactionDetail from './transactionDetail';
 import transactionEdit from './transactionEdit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 
-const dashboard = () => {
+const dashboard = ({navigation}) => {
+  const onLogout = async () => {
+    await AsyncStorage.removeItem("MoneyTrackerToken");
+    await AsyncStorage.removeItem("MoneyTrackerId");
+
+    navigation.navigate("Authenticate");
+  }
+
   return  (
     <Stack.Navigator  
       screenOptions={{ 
@@ -23,8 +31,15 @@ const dashboard = () => {
         name="DASHBOARD" 
         component={dashboardDetail} 
         options={{
-          headerTitle: '',
+          headerTitle: 'GIAO DỊCH',
           headerLeft: null, // Hide go back button for DetailsScreen
+          headerRight: () => (
+            <Button
+              onPress={onLogout}
+              title="LOGOUT"
+              type='clear'
+            />
+          ),
         }}
       />
       <Stack.Screen 
