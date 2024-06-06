@@ -1,15 +1,12 @@
 import axios from 'axios'
 
 export async function signUp(username,email,password) {
-    const response = await axios.post("https://ctime.hcmut.live/users",{
+    const response = await axios.post("https://mobile-be.vercel.app/users",{
         username:username,
         email: email,
         password: password,
     })
-    const message=response.data.message
-    const token=response.data.token;
-    const id = response.data.id
-    return {message:message, token:token,id:id};
+    return response;
   
 
 }
