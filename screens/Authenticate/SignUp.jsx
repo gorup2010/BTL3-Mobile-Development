@@ -82,11 +82,7 @@ export default function SignUp({ navigation }) {
 
     setIsLoading(true);
     try {
-      const {
-        token: authToken,
-        message,
-        id,
-      } = await signUp(username, email, password);
+      const response = await signUp(username, email, password);
       setIsLoading(false);
       setSuccess(true);
     } catch (error) {
